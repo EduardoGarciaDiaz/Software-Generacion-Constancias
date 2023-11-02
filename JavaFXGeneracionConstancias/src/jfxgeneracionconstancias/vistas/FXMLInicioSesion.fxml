@@ -60,6 +60,8 @@
                   <Image url="@../recursos/iconoCandadoIniciarSesion.png" />
                </image>
             </ImageView>
+            <Label fx:id="lbErrorUsuario" layoutX="115.0" layoutY="225.0" prefHeight="21.0" prefWidth="352.0" textAlignment="RIGHT" textFill="RED" />
+            <Label fx:id="lbErrorContraseña" layoutX="194.0" layoutY="349.0" prefHeight="21.0" prefWidth="273.0" textAlignment="RIGHT" textFill="RED" />
          </children>
       </Pane>
       <ImageView fitHeight="397.0" fitWidth="352.0" layoutX="119.0" layoutY="365.0" pickOnBounds="true" preserveRatio="true">
