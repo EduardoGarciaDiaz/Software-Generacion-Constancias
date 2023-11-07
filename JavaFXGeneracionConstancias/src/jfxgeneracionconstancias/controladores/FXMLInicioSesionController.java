@@ -73,7 +73,7 @@ public class FXMLInicioSesionController implements Initializable {
                     credencialesCorrectas = true;
                     usuarioValido = usuarioIngresado;
                 }
-            }
+            }            
         } catch (DAOException ex) {
             manejarExcepcion(ex.getCodigo());           
         }
@@ -132,6 +132,9 @@ public class FXMLInicioSesionController implements Initializable {
                  if(ValidarUsuario(usuarioValidado, contraseña)){
                      setSingleton();
                      irMenuPrincipal();
+                 }
+                 else{
+                     VentanasEmergentes.mostrarDialogoSimple("Acceso denegado", "Credenciales incorrectas", Alert.AlertType.INFORMATION);
                  }
             }else{
                 limpiarLbaelsError();

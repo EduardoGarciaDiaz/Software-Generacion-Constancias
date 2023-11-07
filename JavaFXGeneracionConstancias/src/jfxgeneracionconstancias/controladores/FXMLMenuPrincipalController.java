@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
  *
  * @author tristan
  */
-public class MenuPrincipalController implements Initializable {
+public class FXMLMenuPrincipalController implements Initializable {
 
     /**
      * Initializes the controller class.

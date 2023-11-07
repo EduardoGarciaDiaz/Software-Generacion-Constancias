@@ -11,7 +11,7 @@ public class ConexionBD {
     private static Connection conexion;
     
     private static final String DRIVER = "com.mysql.jdbc.Driver";
-    private static final String NOMBRE_BASE = "sastr";
+    private static final String NOMBRE_BASE = "constancias";
     private static final String HOSTNAME = "localhost";
     private static final String PUERTO = "3306";
     private static final String USUARIO = "userGeneracionConstancias";
