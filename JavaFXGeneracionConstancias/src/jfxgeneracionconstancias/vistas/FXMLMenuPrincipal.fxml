@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jfxgeneracionconstancias.controladores.FXMLMenuPrincipalController">
-    
+
+<AnchorPane id="AnchorPane" prefHeight="940.0" prefWidth="1728.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="jfxgeneracionconstancias.controladores.FXMLMenuPrincipalController">
+   <children>
+      <Button fx:id="btnAdministrarUsuarios" layoutX="428.0" layoutY="190.0" mnemonicParsing="false" onAction="#clicBtnAdministrarUsuarios" prefHeight="112.0" prefWidth="833.0" style="-fx-background-color: #7E98BE;" text="Administrar Usuarios" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Button>
+   </children>
 </AnchorPane>

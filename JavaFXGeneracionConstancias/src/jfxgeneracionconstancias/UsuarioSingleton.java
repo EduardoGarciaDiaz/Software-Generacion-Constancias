@@ -10,7 +10,7 @@ package jfxgeneracionconstancias;
  */
 public class UsuarioSingleton {
     private static UsuarioSingleton instanciaSingleton;
-    private int numeroPersonal;
+    private long numeroPersonal;
     private String nombre;
     private String primerApellido;
     private String segundoApellido;
@@ -20,30 +20,22 @@ public class UsuarioSingleton {
     private String nombreTipoUsuario;
     private String contraseña;
 
-    private UsuarioSingleton(int numeroPersonal, String nombre, String primerApellido, String segundoApellido, boolean esAdministrador, String correoInstitucional, int tipoUsuario, String nombreTipoUsuario, String contraseña) {
-        this.numeroPersonal = numeroPersonal;
-        this.nombre = nombre;
-        this.primerApellido = primerApellido;
-        this.segundoApellido = segundoApellido;
-        this.esAdministrador = esAdministrador;
-        this.correoInstitucional = correoInstitucional;
-        this.tipoUsuario = tipoUsuario;
-        this.nombreTipoUsuario = nombreTipoUsuario;
-        this.contraseña = contraseña;
+    private UsuarioSingleton() {
+        
     }
     
-    public static UsuarioSingleton obtenerInstancia(int numeroPersonal, String nombre, String primerApellido, String segundoApellido, boolean esAdministrador, String correoInstitucional, int tipoUsuario, String nombreTipoUsuario, String contraseña) {
+    public static UsuarioSingleton obtenerInstancia() {
         if (instanciaSingleton == null) {
-            instanciaSingleton = new UsuarioSingleton(numeroPersonal, nombre, primerApellido, segundoApellido, esAdministrador, correoInstitucional, tipoUsuario, nombreTipoUsuario, contraseña);
+            instanciaSingleton = new UsuarioSingleton();
         }
         return instanciaSingleton;
     }
     
-    public int getNumeroPersonal() {
+    public long getNumeroPersonal() {
         return numeroPersonal;
     }
 
-    public void setNumeroPersonal(int numeroPersonal) {
+    public void setNumeroPersonal(long numeroPersonal) {
         this.numeroPersonal = numeroPersonal;
     }
 

@@ -6,7 +6,7 @@ package jfxgeneracionconstancias.modelos.pojo;
  */
 public class Usuario {
     
-    private int numeroPersonal;
+    private long numeroPersonal;
     private String nombre;
     private String primerApellido;
     private String segundoApellido;
@@ -39,11 +39,11 @@ public class Usuario {
         this.contraseña = contraseña;
     }
 
-    public int getNumeroPersonal() {
+    public long getNumeroPersonal() {
         return numeroPersonal;
     }
 
-    public void setNumeroPersonal(int numeroPersonal) {
+    public void setNumeroPersonal(long numeroPersonal) {
         this.numeroPersonal = numeroPersonal;
     }
 

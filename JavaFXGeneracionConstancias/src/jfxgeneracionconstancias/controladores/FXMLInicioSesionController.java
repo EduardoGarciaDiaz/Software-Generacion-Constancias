@@ -21,6 +21,7 @@ import jfxgeneracionconstancias.modelos.dao.DAOException;
 import jfxgeneracionconstancias.modelos.dao.implementaciones.UsuarioDAO;
 import jfxgeneracionconstancias.modelos.pojo.Usuario;
 import jfxgeneracionconstancias.utils.Codigos;
+import jfxgeneracionconstancias.utils.Utilidades;
 import jfxgeneracionconstancias.utils.VentanasEmergentes;
 
 public class FXMLInicioSesionController implements Initializable {
@@ -54,28 +55,29 @@ public class FXMLInicioSesionController implements Initializable {
         
         return tieneContenido;
     }
-    private int ValidarCampos(String usuario, String Contraseña) {
-        int usuarioValido = -1;
+    
+    private long ValidarCampos(String usuario, String Contraseña) {
+        long usuarioValido = -1;
         if(usuario.matches("\\d+")){            
-            usuarioValido = Integer.parseInt(usuario);
+            usuarioValido = Long.valueOf(usuario);
         }
         return usuarioValido;
     }
     
-    private boolean ValidarUsuario(int numerpPersonal, String Contraseña) {
+    private boolean ValidarUsuario(long numeroPersonal, String Contraseña) {
         boolean credencialesCorrectas = false;
         Usuario usuarioIngresado;
         UsuarioDAO usuarioDao = new UsuarioDAO();
         try {
-            usuarioIngresado = usuarioDao.autenticarUsuario(numerpPersonal, Contraseña);
+            usuarioIngresado = usuarioDao.autenticarUsuario(numeroPersonal, Contraseña);
             if(usuarioIngresado != null) {
-                if(usuarioIngresado.getNumeroPersonal() == numerpPersonal && usuarioIngresado.getContraseña().equals(Contraseña)){
+                if(usuarioIngresado.getNumeroPersonal() == numeroPersonal && usuarioIngresado.getContraseña().equals(Contraseña)){
                     credencialesCorrectas = true;
                     usuarioValido = usuarioIngresado;
                 }
             }            
         } catch (DAOException ex) {
-            manejarExcepcion(ex.getCodigo());           
+            Utilidades.manejarExcepcion(ex.getCodigo());           
         }
         return credencialesCorrectas;
     }
@@ -87,11 +89,16 @@ public class FXMLInicioSesionController implements Initializable {
     
     private void setSingleton(){
         if(usuarioValido != null){
-            UsuarioSingleton usuarioSing = UsuarioSingleton.obtenerInstancia( usuarioValido.getNumeroPersonal(), usuarioValido.getNombre(),
-                                       usuarioValido.getPrimerApellido(),usuarioValido.getSegundoApellido(),
-                                      usuarioValido.isAdministrador(),usuarioValido.getCorreoInstitucional(),
-                                         usuarioValido.getTipoUsuario(),usuarioValido.getNombreTipoUsuario(),
-                                          usuarioValido.getContraseña());
+            UsuarioSingleton usuarioSing = UsuarioSingleton.obtenerInstancia();
+            usuarioSing.setNumeroPersonal(usuarioValido.getNumeroPersonal());
+            usuarioSing.setNombre(usuarioValido.getNombre());
+            usuarioSing.setPrimerApellido(usuarioValido.getPrimerApellido());
+            usuarioSing.setSegundoApellido(usuarioValido.getSegundoApellido());
+            usuarioSing.setEsAdministrador(usuarioValido.isAdministrador());
+            usuarioSing.setCorreoInstitucional(usuarioValido.getCorreoInstitucional());
+            usuarioSing.setContraseña(usuarioValido.getContraseña());
+            usuarioSing.setTipoUsuario(usuarioValido.getTipoUsuario());
+            usuarioSing.setNombreTipoUsuario(usuarioValido.getNombreTipoUsuario());
         }        
     }
     
@@ -101,24 +108,12 @@ public class FXMLInicioSesionController implements Initializable {
             Parent vista = accesoControlador.load();            
             Stage escenario = (Stage) lbErrorUsuario.getScene().getWindow();
             escenario.setScene(new Scene(vista));
+            escenario.centerOnScreen();
             escenario.setTitle("Inicio Sesion");
             escenario.show();            
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
-    
-    private void manejarExcepcion(Codigos codigoError){
-        String titulo = "", mensaje = "";
-        if(codigoError == Codigos.ERROR_CONSULTA) {
-            titulo = "ERROR";
-            mensaje = "Hubo un error al realizar la consulta en la Base de Datos";             
-        }
-        if(codigoError == Codigos.ERROR_CONEXION_BD) {
-            titulo = "ERROR";
-            mensaje = "No se pudo conectar con la Base de datos";
-        }
-        VentanasEmergentes.mostrarDialogoSimple(titulo,mensaje, Alert.AlertType.ERROR);
     }
 
     @FXML
@@ -127,7 +122,7 @@ public class FXMLInicioSesionController implements Initializable {
         String usuario = tfUsuario.getText();
         String contraseña = pfContraseña.getText();        
         if(comprobarCamposVacios(usuario, contraseña)){
-            int usuarioValidado = ValidarCampos(usuario, contraseña);
+            long usuarioValidado = ValidarCampos(usuario, contraseña);
             if (usuarioValidado != -1) {
                  if(ValidarUsuario(usuarioValidado, contraseña)){
                      setSingleton();
