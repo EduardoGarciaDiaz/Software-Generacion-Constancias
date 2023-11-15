@@ -19,6 +19,16 @@ public class ProfesorDAO implements IProfesorDAO {
     
     private static String REGISTRAR_PROFESOR = "insert into profesores (fechaNacimiento, "
             + "correoAlterno, gradoEstudios, numeroPersonal) value (?, ?, ?, ?);";
+    private static String OBTENER_PROFESOR_POR_NUMERO_PERSONAL = "SELECT p.idProfesor, p.fechaNacimiento, p.correoAlterno, "
+            + " p.gradoEstudios, p.numeroPersonal, "
+            + "u.nombre, u.primerApellido, u.segundoApellido, u.correoInstitucional "
+            + "FROM Profesores p "
+            + "INNER JOIN usuarios u "
+            + "ON p.numeroPersonal = u.numeroPersonal "
+            + "WHERE p.numeroPersonal = ?";
+    private static String EDITAR_PROFESOR = "UPDATE `constancias`.`profesores` "
+            + "SET `fechaNacimiento` = ?, `correoAlterno` = ?, `gradoEstudios` = ? "
+            + "WHERE `numeroPersonal` = ?";
 
     @Override
     public int registrarProfesor(Profesor profesor) throws DAOException {
@@ -45,13 +55,51 @@ public class ProfesorDAO implements IProfesorDAO {
     }
 
     @Override
-    public int editarProfesor(Profesor profesor, int idProfesor) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public long editarProfesor(Profesor profesor) throws DAOException {
+        long respuesta = -1;
+        try {
+            PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement(EDITAR_PROFESOR);
+            sentencia.setString(1, profesor.getFechaNacimiento());
+            sentencia.setString(2, profesor.getCorreoAlterno());
+            sentencia.setString(3, profesor.getGradoEstudios());
+            sentencia.setLong(4, profesor.getNumeroPersonal());
+            int filasAfectadas = sentencia.executeUpdate();
+            respuesta = (filasAfectadas == 1) ? profesor.getNumeroPersonal(): -1;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new DAOException("", Codigos.ERROR_CONSULTA);
+        } finally {
+            ConexionBD.cerrarConexionBD();
+        }
+        return respuesta;    
     }
 
     @Override
-    public Profesor obtenerProfesor(int idProfesor) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Profesor obtenerProfesor(long numeroPersonal) throws DAOException {
+        Profesor profesor = null;
+        try {
+            PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement(OBTENER_PROFESOR_POR_NUMERO_PERSONAL);
+            sentencia.setLong(1, numeroPersonal);
+            ResultSet resultado = sentencia.executeQuery();
+            if (resultado.next()) {
+                profesor = new Profesor();
+                profesor.setIdUsuario(resultado.getInt("idProfesor"));
+                profesor.setFechaNacimiento(resultado.getString("fechaNacimiento"));
+                profesor.setCorreoAlterno(resultado.getString("correoAlterno"));
+                profesor.setGradoEstudios(resultado.getString("gradoEstudios"));
+                profesor.setNumeroPersonal(resultado.getLong("numeroPersonal"));
+                profesor.setNombre(resultado.getString("nombre"));
+                profesor.setPrimerApellido(resultado.getString("primerApellido"));
+                profesor.setSegundoApellido(resultado.getString("segundoApellido"));
+                profesor.setCorreoInstitucional(resultado.getString("correoInstitucional"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new DAOException("Error al obtener el profesor por numero de Personal", Codigos.ERROR_CONSULTA);
+        } finally {
+            ConexionBD.cerrarConexionBD();
+        }
+        return profesor;
     }
 
     @Override

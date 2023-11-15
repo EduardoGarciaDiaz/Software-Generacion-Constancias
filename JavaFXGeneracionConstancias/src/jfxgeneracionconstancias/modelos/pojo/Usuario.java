@@ -20,7 +20,7 @@ public class Usuario {
         
     }
     
-    public Usuario(int numeroPersonal, String nombre, String primerApellido, String segundoApellido, boolean esAdministrador, String correoInstitucional, int tipoUsuario, String nombreTipoUsuario) {
+    public Usuario(long numeroPersonal, String nombre, String primerApellido, String segundoApellido, boolean esAdministrador, String correoInstitucional, int tipoUsuario, String nombreTipoUsuario) {
         this.numeroPersonal = numeroPersonal;
         this.nombre = nombre;
         this.primerApellido = primerApellido;
@@ -29,6 +29,14 @@ public class Usuario {
         this.correoInstitucional = correoInstitucional;
         this.tipoUsuario = tipoUsuario;
         this.nombreTipoUsuario = nombreTipoUsuario;
+    }
+    
+        public Usuario(long numeroPersonal, String nombre, String primerApellido, String segundoApellido, String correoInstitucional) {
+        this.numeroPersonal = numeroPersonal;
+        this.nombre = nombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.correoInstitucional = correoInstitucional;
     }
 
     public String getContraseña() {

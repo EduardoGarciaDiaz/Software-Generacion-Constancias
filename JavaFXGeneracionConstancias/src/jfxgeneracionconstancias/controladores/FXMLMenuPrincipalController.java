@@ -23,6 +23,8 @@ public class FXMLMenuPrincipalController implements Initializable {
 
     @FXML
     private Button btnAdministrarUsuarios;
+    @FXML
+    private Button btnAdministrarConstancias;
 
     /**
      * Initializes the controller class.
@@ -31,6 +33,9 @@ public class FXMLMenuPrincipalController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         if (UsuarioSingleton.obtenerInstancia().isEsAdministrador()) {
             btnAdministrarUsuarios.setVisible(true);
+        }
+        if (UsuarioSingleton.obtenerInstancia().getTipoUsuario() == 2){
+            btnAdministrarConstancias.setVisible(true);
         }
     }    
 
@@ -51,5 +56,26 @@ public class FXMLMenuPrincipalController implements Initializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    @FXML
+    private void clicBtnAdministrarConstancias(ActionEvent event) {
+        irAdministrarConstancias();
+    }
+    
+        private void irAdministrarConstancias(){       
+          try {
+            FXMLLoader accesoControlador = new FXMLLoader(JavaFXGeneracionConstancias.class
+                    .getResource("vistas/FXMLRegistroInformacionConstancias.fxml"));
+            Parent vista = accesoControlador.load();            
+            Stage escenario = (Stage) btnAdministrarConstancias.getScene().getWindow();
+            escenario.setScene(new Scene(vista));
+            escenario.setTitle("Administrar constancias");
+            escenario.centerOnScreen();
+            escenario.show();            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+          
     }
 }
