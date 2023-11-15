@@ -315,6 +315,7 @@ public class FXMLRegistroInformacionConstanciasController implements Initializab
     }
     
     private void mostrarConstanciaExperienciaEducativaPane(){
+        //TODO: setVisible(false) los otros pane's
         paneConstanciaExperienciaEducativa.setVisible(true);
         if (idProfesor > 0) {
             configurarTablaExperienciaEducativa();
@@ -536,17 +537,6 @@ public class FXMLRegistroInformacionConstanciasController implements Initializab
         }
     }
 
-
-
-    @FXML
-    private void clicConstanciaJurado(ActionEvent event) {
-
-    }
-
-    @FXML
-    private void clicConstanciaProyecto(ActionEvent event) {
-    }
-
     @FXML
     private void clic_seleccionAsignarExperienciaEducativa(ActionEvent event) {
         ExperienciaEducativa experienciaEducativaSeleccionada = cbExperienciaEducativa.getSelectionModel().getSelectedItem();
@@ -561,5 +551,28 @@ public class FXMLRegistroInformacionConstanciasController implements Initializab
             llenarComboBoxExperienciaEducativa();
         });
     }
+
+
+    @FXML
+    private void clicConstanciaJurado(ActionEvent event) {
+        mostrarConstanciaJuradoPane();
+    }
+    
+    private void mostrarConstanciaJuradoPane(){
+        //TODO
+        paneConstanciaExperienciaEducativa.setVisible(false);
+    }
+
+    @FXML
+    private void clicConstanciaProyecto(ActionEvent event) {
+        mostrarConstanciaProyectoPane();
+    }
+    
+    private void mostrarConstanciaProyectoPane(){
+        //TODO
+        paneConstanciaExperienciaEducativa.setVisible(false);
+    }
+
+
 
 }
