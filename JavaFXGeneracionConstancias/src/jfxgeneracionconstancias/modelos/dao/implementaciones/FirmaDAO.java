@@ -35,6 +35,7 @@ public class FirmaDAO implements IFirmaDAO{
                 firmaActual.setIdFirmaDigital(resultado.getInt("idFirmaElectronica"));
                 firmaActual.setContenidoFirmaDigital(resultado.getString("firma"));
                 firmaActual.setFechaOrigen(resultado.getTimestamp("fechaExpiracion").toString());
+                firmaActual.setFechaExpiracion(firmaActual.getFechaOrigen());
             }
         }catch (SQLException ex) {
             ex.printStackTrace();

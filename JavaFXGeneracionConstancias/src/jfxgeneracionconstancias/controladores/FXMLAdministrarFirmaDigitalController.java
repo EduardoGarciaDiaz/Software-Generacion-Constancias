@@ -111,7 +111,7 @@ public class FXMLAdministrarFirmaDigitalController implements Initializable {
         LocalDateTime fechaResultado = dateTime.plusMonths(3);        
         fechaExpiracionFirmaActual = fechaResultado;
         fechaExpiracionFirmaActual.format(formatter);
-        return fechaResultado.toString();
+        return fechaExpiracionFirmaActual.toString();
     }
     
     private boolean firmaEstaExpirada(){       

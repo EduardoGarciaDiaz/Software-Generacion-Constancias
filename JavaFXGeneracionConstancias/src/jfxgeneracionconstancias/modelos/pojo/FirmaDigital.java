@@ -4,6 +4,10 @@
  */
 package jfxgeneracionconstancias.modelos.pojo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author tristan
@@ -13,6 +17,7 @@ public class FirmaDigital {
     private int idFirmaDigital;
     private String contenidoFirmaDigital;
     private String fechaOrigen;
+    private String fechaExpiracion;
 
     public FirmaDigital() {
     }
@@ -44,9 +49,20 @@ public class FirmaDigital {
         return fechaOrigen;
     }
 
-    public void setFechaOrigen(String fechaExpiración) {
-        this.fechaOrigen = fechaExpiración;
+    public void setFechaOrigen(String fechaOrigen) {
+        this.fechaOrigen = fechaOrigen;
     }
     
-    
+    public void setFechaExpiracion(String fechaOrigen) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+        LocalDateTime dateTime = LocalDateTime.parse(fechaOrigen, formatter);
+        LocalDateTime fechaResultado = dateTime.plusMonths(3);        
+        LocalDateTime fechaExp = fechaResultado;
+        fechaExp.format(formatter);
+        this.fechaExpiracion  = fechaExp.toString();
+    }
+
+    public String getFechaExpiracion() {
+        return fechaExpiracion;
+    }    
 }
