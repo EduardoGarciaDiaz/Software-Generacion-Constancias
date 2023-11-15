@@ -29,6 +29,8 @@ public class UsuarioDAO implements IUserDAO {
     private final String OBTENER_USUARIOS = "select numeroPersonal, nombre, primerApellido, segundoApellido, esAdmin, correoInstitucional, "
             + "contraseña, usuarios.IdTipoUsuario, tiposusuario.tipoUsuario from usuarios  inner join tiposusuario "
             + "where usuarios.idTipoUsuario = tiposusuario.idTipoUsuario";
+    private final String EDITAR_USUARIO_POR_PERSONAL_ADMINISTRATIVO = "UPDATE usuarios SET `nombre` = ?, `primerApellido` = ?, `segundoApellido` = ?, "
+            + "correoInstitucional = ? WHERE (`numeroPersonal` = ?)";
     
     @Override
     public long registrarUsuario(Usuario usuario) throws DAOException {
@@ -70,6 +72,27 @@ public class UsuarioDAO implements IUserDAO {
             int filasAfectadas = sentencia.executeUpdate();
             respuesta = (filasAfectadas == 1) ? usuario.getNumeroPersonal(): -1;
         } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new DAOException("", Codigos.ERROR_CONSULTA);
+        } finally {
+            ConexionBD.cerrarConexionBD();
+        }
+        return respuesta;
+    }
+    
+    public long editarUsuarioPorPersonalAdministrativo(Usuario usuario) throws DAOException {
+        long respuesta = -1;
+        try {
+            PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement(EDITAR_USUARIO_POR_PERSONAL_ADMINISTRATIVO);
+            sentencia.setString(1, usuario.getNombre());
+            sentencia.setString(2, usuario.getPrimerApellido());
+            sentencia.setString(3, usuario.getSegundoApellido());
+            sentencia.setString(4, usuario.getCorreoInstitucional());
+            sentencia.setLong(5, usuario.getNumeroPersonal());
+            int filasAfectadas = sentencia.executeUpdate();
+            respuesta = (filasAfectadas == 1) ? usuario.getNumeroPersonal(): -1;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
             throw new DAOException("", Codigos.ERROR_CONSULTA);
         } finally {
             ConexionBD.cerrarConexionBD();
