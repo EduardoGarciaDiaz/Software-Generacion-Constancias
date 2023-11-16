@@ -29,6 +29,8 @@ public class ProfesorDAO implements IProfesorDAO {
     private static String EDITAR_PROFESOR = "UPDATE `constancias`.`profesores` "
             + "SET `fechaNacimiento` = ?, `correoAlterno` = ?, `gradoEstudios` = ? "
             + "WHERE `numeroPersonal` = ?";
+    private static String RECUPERAR_TODOS_LOS_PROFESORES = "SELECT * FROM constancias.usuarios "         
+            + "Join constancias.profesores ON usuarios.numeroPersonal = profesores.numeroPersonal;";
 
     @Override
     public int registrarProfesor(Profesor profesor) throws DAOException {
@@ -104,7 +106,30 @@ public class ProfesorDAO implements IProfesorDAO {
 
     @Override
     public ArrayList<Profesor> obtenerProfesores() throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Profesor> profesores = new ArrayList<>();
+        try {
+            PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement(RECUPERAR_TODOS_LOS_PROFESORES);
+            ResultSet resultado = sentencia.executeQuery();
+            if (resultado.next()) {
+                Profesor profesor = new Profesor();
+                profesor.setIdUsuario(resultado.getInt("idProfesor"));
+                profesor.setFechaNacimiento(resultado.getString("fechaNacimiento"));
+                profesor.setCorreoAlterno(resultado.getString("correoAlterno"));
+                profesor.setGradoEstudios(resultado.getString("gradoEstudios"));
+                profesor.setNumeroPersonal(resultado.getLong("numeroPersonal"));
+                profesor.setNombre(resultado.getString("nombre"));
+                profesor.setPrimerApellido(resultado.getString("primerApellido"));
+                profesor.setSegundoApellido(resultado.getString("segundoApellido"));
+                profesor.setCorreoInstitucional(resultado.getString("correoInstitucional"));
+                profesores.add(profesor);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new DAOException("Error al obtener el profesor por numero de Personal", Codigos.ERROR_CONSULTA);
+        } finally {
+            ConexionBD.cerrarConexionBD();
+        }
+        return profesores;
     }
     
 }

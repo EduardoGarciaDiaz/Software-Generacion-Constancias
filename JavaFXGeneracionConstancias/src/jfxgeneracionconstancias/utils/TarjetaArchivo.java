@@ -24,8 +24,8 @@ import javafx.scene.text.TextAlignment;
 public class TarjetaArchivo extends Pane{
     private Label peso = new Label();
     private Label nombre = new Label();
-    private ImageView imgEliminar;
-    private ImageView imgArchivo;
+    private ImageView imgEliminar ;
+    private ImageView imgArchivo ;
     private File archivoAMostrar;
     
     public TarjetaArchivo(File archivo) throws IOException {
@@ -54,25 +54,25 @@ public class TarjetaArchivo extends Pane{
     }
     
     private void establecerEstiloImagenCsv(){
-        imgArchivo.prefHeight(70);
-        imgArchivo.prefWidth(70);
-        imgArchivo = new ImageView(new javafx.scene.image.Image("file:src/JavaFXGeneracionConstancias/recursos/csvImage.jpg"));
-        imgArchivo.setX(0);
-        imgArchivo.setY(0);
+        imgArchivo = new ImageView(new javafx.scene.image.Image("file:src/jfxgeneracionconstancias/recursos/csvImage.png"));
+        imgArchivo.setFitHeight(70);
+        imgArchivo.setFitWidth(70);          
+        imgArchivo.setLayoutY(1);
+        imgArchivo.setLayoutX(1);
     }
     
     private void establcerEstiloImagenELiminar(){
-        imgEliminar.prefHeight(20);
-        imgEliminar.prefWidth(20);
-        imgEliminar =  new ImageView(new javafx.scene.image.Image("file:src/JavaFXGeneracionConstancias/recursos/CrossImageWhite.jpg"));
-        imgEliminar.setY(0);
-        imgEliminar.setX(290-20);
+        imgEliminar =  new ImageView(new javafx.scene.image.Image("file:src/jfxgeneracionconstancias/recursos/CrossImageWhite.png"));
+        imgEliminar.setFitHeight(20);
+        imgEliminar.setFitWidth(20);        
+        imgEliminar.setLayoutY(1);
+        imgEliminar.setLayoutX(290-20);
     }
     
      private void establecerEstiloNombre(){
         nombre.setPrefSize(200, 30.0);
         nombre.setLayoutX(72);
-        nombre.setLayoutY(20);
+        nombre.setLayoutY(10);
         nombre.setTextAlignment(TextAlignment.LEFT);
         nombre.setWrapText(true);
         nombre.setFont(new Font(15));
@@ -83,7 +83,7 @@ public class TarjetaArchivo extends Pane{
     private void establecerEstiloPeso() throws IOException {
         peso.setPrefSize(200, 30.0);
         peso.setLayoutX(72);
-        peso.setLayoutY(50);
+        peso.setLayoutY(40);
         peso.setTextAlignment(TextAlignment.LEFT);
         peso.setWrapText(true);
         peso.setFont(new Font(15));     
