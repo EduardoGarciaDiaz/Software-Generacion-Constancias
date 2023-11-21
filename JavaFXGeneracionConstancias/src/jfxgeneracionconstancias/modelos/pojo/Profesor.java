@@ -7,7 +7,9 @@ public class Profesor extends Usuario {
     private String correoAlterno;
     private String gradoEstudios;
 
-    public Profesor(){}
+    public Profesor(){
+        
+    }
     
     public Profesor(int idUsuario, String fechaNacimiento, String correoAlterno, String gradoEstudios) {
         this.idUsuario = idUsuario;
@@ -15,6 +17,14 @@ public class Profesor extends Usuario {
         this.correoAlterno = correoAlterno;
         this.gradoEstudios = gradoEstudios;
     }
+    
+    public Profesor(String fechaNacimiento, String correoAlterno, String gradoEstudios, long numeroPersonal, String nombre, String primerApellido, String segundoApellido, String correoInstitucional) {
+        super(numeroPersonal, nombre, primerApellido, segundoApellido, correoInstitucional);
+        this.fechaNacimiento = fechaNacimiento;
+        this.correoAlterno = correoAlterno;
+        this.gradoEstudios = gradoEstudios;
+    }
+
 
     public Profesor(int idUsuario, String fechaNacimiento, String correoAlterno, String gradoEstudios, int numeroPersonal, String nombre, String primerApellido, String segundoApellido, boolean esAdministrador, String correoInstitucional, int tipoUsuario, String nombreTipoUsuario) {
         super(numeroPersonal, nombre, primerApellido, segundoApellido, esAdministrador, correoInstitucional, tipoUsuario, nombreTipoUsuario);

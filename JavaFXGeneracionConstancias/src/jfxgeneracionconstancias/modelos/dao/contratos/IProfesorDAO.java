@@ -10,7 +10,7 @@ import jfxgeneracionconstancias.modelos.pojo.Profesor;
  */
 public interface IProfesorDAO {
     public int registrarProfesor(Profesor profesor) throws DAOException;
-    public int editarProfesor(Profesor profesor, int idProfesor) throws DAOException;
-    public Profesor obtenerProfesor(int idProfesor) throws DAOException;
+    public long editarProfesor(Profesor profesor) throws DAOException;
+    public Profesor obtenerProfesor(long numeroPersonal) throws DAOException;
     public ArrayList<Profesor> obtenerProfesores() throws DAOException;
 }
