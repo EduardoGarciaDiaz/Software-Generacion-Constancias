@@ -103,7 +103,7 @@ public class FXMLInicioSesionController implements Initializable {
     }
     
     private void irMenuPrincipal(){       
-          try {
+        try {
             FXMLLoader accesoControlador = new FXMLLoader(JavaFXGeneracionConstancias.class.getResource("vistas/FXMLMenuPrincipal.fxml"));
             Parent vista = accesoControlador.load();            
             Stage escenario = (Stage) lbErrorUsuario.getScene().getWindow();

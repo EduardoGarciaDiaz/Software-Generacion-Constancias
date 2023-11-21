@@ -14,7 +14,7 @@ public class JavaFXGeneracionConstancias extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("vistas/FXMLImportarCVSProfesores.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("vistas/FXMLInicioSesion.fxml"));
         
         Scene scene = new Scene(root);
         
