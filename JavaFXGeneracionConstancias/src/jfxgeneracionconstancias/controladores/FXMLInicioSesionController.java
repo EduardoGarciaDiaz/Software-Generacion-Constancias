@@ -115,7 +115,22 @@ public class FXMLInicioSesionController implements Initializable {
             ex.printStackTrace();
         }
     }
+    
+    private void irSolicitarConstancia(){       
+        try {
+            FXMLLoader accesoControlador = new FXMLLoader(JavaFXGeneracionConstancias.class.getResource("vistas/FXMLSolicitarConstancia.fxml"));
+            Parent vista = accesoControlador.load();            
+            Stage escenario = (Stage) lbErrorUsuario.getScene().getWindow();
+            escenario.setScene(new Scene(vista));
+            escenario.centerOnScreen();
+            escenario.setTitle("Solicitar constancia");
+            escenario.show();            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
+    
     @FXML
     private void clicBtnIniciarSesion(ActionEvent event) {
         limpiarLbaelsError();
@@ -125,8 +140,12 @@ public class FXMLInicioSesionController implements Initializable {
             long usuarioValidado = ValidarCampos(usuario, contraseña);
             if (usuarioValidado != -1) {
                  if(ValidarUsuario(usuarioValidado, contraseña)){
-                     setSingleton();
-                     irMenuPrincipal();
+                    setSingleton();
+                    if (UsuarioSingleton.obtenerInstancia().getTipoUsuario() == 1) {
+                        irSolicitarConstancia();
+                    } else {
+                        irMenuPrincipal();
+                    }
                  }
                  else{
                      VentanasEmergentes.mostrarDialogoSimple("Acceso denegado", "Credenciales incorrectas", Alert.AlertType.INFORMATION);

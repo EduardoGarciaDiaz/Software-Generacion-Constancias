@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="940.0" prefWidth="1728.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jfxgeneracionconstancias.controladores.FXMLSolicitarConstanciaController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5d97c9" height="40.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1728.0" />
+      <Label layoutX="12.0" layoutY="3.0" text="Software para la Generación de Constancias" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="63.0" layoutY="59.0" text="Solicitar Constancia">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbxTiposConstancia" layoutX="32.0" layoutY="116.0" prefHeight="51.0" prefWidth="360.0" promptText="Seleccionar tipo de constancia" style="-fx-font-size: 20;" />
+      <ComboBox fx:id="cmbxProgramaEducativo" layoutX="32.0" layoutY="201.0" prefHeight="55.0" prefWidth="360.0" promptText="Seleccionar programa educativo" style="-fx-font-size: 20;" visible="false" />
+      <ComboBox fx:id="cmbxPeriodoEscolar" layoutX="32.0" layoutY="294.0" prefHeight="55.0" prefWidth="360.0" promptText="Seleccionar periodo escolar" style="-fx-font-size: 20;" visible="false" />
+      <ComboBox fx:id="cmbxExperienciaEducativa" layoutX="33.0" layoutY="387.0" prefHeight="55.0" prefWidth="360.0" promptText="Seleccionar experiencia educativa" style="-fx-font-size: 20;" visible="false" />
+      <Button fx:id="btnExport" disable="true" layoutX="1408.0" layoutY="117.0" mnemonicParsing="false" onAction="#clicExportarComoPDF" prefHeight="44.0" prefWidth="241.0" text="Exportar como PDF">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnGenerarConstancia" disable="true" layoutX="151.0" layoutY="646.0" mnemonicParsing="false" onAction="#clicGenerarConstancia" prefHeight="31.0" prefWidth="241.0" text="Generar constancia">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Pane fx:id="contenedorConstanciaImparticion" layoutX="488.0" layoutY="114.0" prefHeight="773.0" prefWidth="861.0" style="-fx-background-color: #EEEEEE;" visible="false">
+         <children>
+            <Label layoutX="48.0" layoutY="47.0" text="A quien corresponda">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="46.0" layoutY="93.0" prefHeight="69.0" prefWidth="766.0" text="​​El que suscribe, Director de la Facultad de Estadística e Informática, de la Universidad Veracruzana " wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="327.0" layoutY="173.0" prefHeight="69.0" prefWidth="155.0" text="HACE CONSTAR" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="48.0" layoutY="235.0" prefHeight="38.0" prefWidth="155.0" text="que el Mtro. (a)." wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblNombreProfesor" layoutX="193.0" layoutY="235.0" prefHeight="38.0" prefWidth="308.0" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="512.0" layoutY="231.0" prefHeight="38.0" prefWidth="300.0" text="impartió la siguiente experiencia" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="50.0" layoutY="268.0" prefHeight="38.0" prefWidth="131.0" text="en el periodo" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblNombrePeriodo" layoutX="176.0" layoutY="268.0" prefHeight="38.0" prefWidth="202.0" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblInformacionConstanciaImparticionEE" layoutX="46.0" layoutY="322.0" prefHeight="101.0" prefWidth="761.0">
+              <columns>
+                <TableColumn id="colProgramaEducativoEE" fx:id="colProgramaEducativoEE" prefWidth="150.0" text="Programa Educativo" />
+                <TableColumn id="colExperienciaEducativaEE" fx:id="colExperienciaEducaticaEE" minWidth="0.0" prefWidth="181.3333740234375" text="Experiencia Educativa" />
+                  <TableColumn id="colBloqueEE" fx:id="colBloqueEE" prefWidth="101.66668701171875" text="Bloque" />
+                  <TableColumn id="colSeccionEE" fx:id="colSeccionEE" prefWidth="93.33331298828125" text="Sección" />
+                  <TableColumn id="colCreditosEE" fx:id="colCreditosEE" prefWidth="104.99993896484375" text="Creditos" />
+                  <TableColumn id="colHorasEE" fx:id="colHorasEE" prefWidth="129.6666259765625" text="Horas" />
+              </columns>
+            </TableView>
+            <Label layoutX="47.0" layoutY="443.0" prefHeight="69.0" prefWidth="766.0" text="A petición de la interesada y para los fines legales que a la misma convenga, se extiende la presente en la ciudad de Xalapa-Enríquez, Veracruz el día" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblFecha" layoutX="666.0" layoutY="473.0" prefHeight="38.0" prefWidth="138.0" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="355.0" layoutY="546.0" prefHeight="69.0" prefWidth="116.0" text="Atentamente" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="248.0" layoutY="572.0" prefHeight="69.0" prefWidth="329.0" text="Lis de Veracruz: Ciencia, Arte, Luz" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
