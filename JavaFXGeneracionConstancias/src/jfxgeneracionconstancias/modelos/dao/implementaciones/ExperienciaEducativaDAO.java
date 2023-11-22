@@ -47,6 +47,26 @@ public class ExperienciaEducativaDAO {
             + " AND seccion =  ? AND creditos = ? AND idProgramaEducativo = ? AND idPeriodoEscolar = ?;";
     private static String DESASIGNAR_EXPERIENCIA_EDUCATIVA_AL_PROFESOR = "DELETE FROM profesoresexperienciaseducativas "
             + "WHERE idProfesor = ? AND idExperienciaEducativa = ?";
+    private final String OBTENER_EXPERIENCIAS_EDUCATIVAS_PERIODO_PROGRAMA_EDUCATIVO = "SELECT "
+            + "experienciaseducativas.idExperienciaEducativa, " 
+            + "experienciaseducativas.nombre, " 
+            + "experienciaseducativas.bloque, "
+            + "experienciaseducativas.seccion, "
+            + "experienciaseducativas.creditos, "
+            + "experienciaseducativas.idProgramaEducativo, "
+            + "experienciaseducativas.idPeriodoEscolar, " 
+            + "programaseducativos.nombreProgramaEducativo "
+            + "FROM experienciaseducativas "
+            + "left join periodosescolares  "
+            + "on experienciaseducativas.idPeriodoEscolar = periodosescolares.idPeriodoEscolar "
+            + "left join programaseducativos "
+            + "on experienciaseducativas.idProgramaEducativo = programaseducativos.idProgramaEducativo "
+            + "left join profesoresexperienciaseducativas "
+            + "on experienciaseducativas.idExperienciaEducativa = profesoresexperienciaseducativas.idExperienciaEducativa "
+            + "left join profesores "
+            + "on profesoresexperienciaseducativas.idProfesor = profesores.idProfesor "
+            + "where periodosescolares.idPeriodoEscolar = ? and programaseducativos.idProgramaEducativo = ? "
+            + "and profesores.numeroPersonal = ?;";
     
     public int registrarExperienciaEducativa(ExperienciaEducativa experienciaEducativa)throws DAOException{
         int respuesta = -1;
@@ -113,6 +133,35 @@ public class ExperienciaEducativaDAO {
                 experienciasEducativas.add(experienciaEducativa);
             }
         } catch (SQLException ex) {
+            throw new DAOException("", Codigos.ERROR_CONSULTA);
+        } finally {
+            ConexionBD.cerrarConexionBD();
+        }
+        return experienciasEducativas;
+    }
+    
+    public ObservableList<ExperienciaEducativa> obtenerExperienciasEducativasPorPeriodoYPrograma(int idPeriodo, int idProgramaEducativo, long numeroPersonal) throws DAOException{
+        ObservableList<ExperienciaEducativa> experienciasEducativas = FXCollections.observableArrayList();
+        try{
+            PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement(OBTENER_EXPERIENCIAS_EDUCATIVAS_PERIODO_PROGRAMA_EDUCATIVO);
+            sentencia.setInt(1, idPeriodo);
+            sentencia.setInt(2, idProgramaEducativo);
+            sentencia.setLong(3, numeroPersonal);
+            ResultSet resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                ExperienciaEducativa experienciaEducativa = new ExperienciaEducativa();
+                experienciaEducativa.setIdExperienciaEducativa(resultado.getInt("idExperienciaEducativa"));
+                experienciaEducativa.setNombre(resultado.getString("nombre"));
+                experienciaEducativa.setBloque(resultado.getInt("bloque"));
+                experienciaEducativa.setSeccion(resultado.getInt("seccion"));
+                experienciaEducativa.setCreditos(resultado.getInt("creditos"));
+                experienciaEducativa.setIdProgramaEducativo(resultado.getInt("idProgramaEducativo"));
+                experienciaEducativa.setIdPeriodoEscolar(resultado.getInt("idPeriodoEscolar"));
+                experienciaEducativa.setNombreProgramaEducativo(resultado.getString("nombreProgramaEducativo"));
+                experienciasEducativas.add(experienciaEducativa);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
             throw new DAOException("", Codigos.ERROR_CONSULTA);
         } finally {
             ConexionBD.cerrarConexionBD();
