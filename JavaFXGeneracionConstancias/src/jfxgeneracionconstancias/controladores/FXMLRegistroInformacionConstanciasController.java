@@ -119,6 +119,7 @@ public class FXMLRegistroInformacionConstanciasController implements Initializab
     private void clicBuscar(MouseEvent event) {
         establecerEstiloNormal();
         buscarProfesor();
+        paneFormularioConstancias.getChildren().clear();
         paneFormularioConstancias.setVisible(true);
     }
     
@@ -140,9 +141,9 @@ public class FXMLRegistroInformacionConstanciasController implements Initializab
             if (profesorEncontrado != null) {
                 habilitarBotonesPrincipales();
                 cargarDatosUsuario(profesorEncontrado);
-                ocultarPaneConstancias();
             } else {
                 lbAdvertenciaNumeroPersonal.setVisible(true);
+                ocultarPaneConstancias();
             }
         } else {
             lbAdvertenciaNumeroPersonalNoValido.setVisible(true);
@@ -284,6 +285,7 @@ public class FXMLRegistroInformacionConstanciasController implements Initializab
     }
 
     private void mostrarConstanciaExperienciaEducativaPane() {
+        paneFormularioConstancias.getChildren().clear();
         try {
             FXMLLoader accesoControlador = new FXMLLoader(JavaFXGeneracionConstancias.class.getResource("utils/tarjetas/FXMLConstanciaImparticionEE.fxml"));
             AnchorPane anchorPaneConstanciaImparticionEE = accesoControlador.load();            
@@ -301,10 +303,16 @@ public class FXMLRegistroInformacionConstanciasController implements Initializab
     }
     
     private void mostrarConstanciaJuradoPane(){
-        //TODO
-        //paneConstanciaExperienciaEducativa.setVisible(false);
         paneFormularioConstancias.getChildren().clear();
-        //TODO: agregar el otro FXML Anchor pane
+         try {
+            FXMLLoader accesoControlador = new FXMLLoader(JavaFXGeneracionConstancias.class.getResource("utils/tarjetas/FXMLConstanciaJurado.fxml"));
+            AnchorPane anchorPaneConstanciaImparticionEE = accesoControlador.load();            
+            FXMLConstanciaJuradoController controladorConstanciaJurado = accesoControlador.getController();
+            controladorConstanciaJurado.llenarVentana(idProfesor);
+            paneFormularioConstancias.getChildren().add(anchorPaneConstanciaImparticionEE);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML

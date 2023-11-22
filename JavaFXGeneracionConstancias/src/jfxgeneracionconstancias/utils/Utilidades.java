@@ -78,4 +78,23 @@ public class Utilidades {
         }
     }
     
+    public static boolean nombreTRValido(String nombreTR) {
+        if (nombreTR != null && !nombreTR.isEmpty()){
+            Pattern patronNombreTR = Pattern.compile("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]{1,100}$");
+            Matcher matchPatron = patronNombreTR.matcher(nombreTR);
+            return matchPatron.find();
+        } else {
+            return false;
+        }
+    }
+    
+    public static boolean alumnosValido(String alumnos) {
+        if (alumnos != null && !alumnos.isEmpty()){
+            Pattern patronAlumnos = Pattern.compile("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]{1,500}$");
+            Matcher matchPatron = patronAlumnos.matcher(alumnos);
+            return matchPatron.find();
+        } else {
+            return false;
+        }
+    }    
 }

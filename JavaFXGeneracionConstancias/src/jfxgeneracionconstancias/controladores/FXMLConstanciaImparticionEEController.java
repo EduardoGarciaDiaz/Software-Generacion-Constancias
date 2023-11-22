@@ -87,13 +87,11 @@ public class FXMLConstanciaImparticionEEController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //llenarVentana();
     }    
     
     public void llenarVentana(int idProfesor) {
         this.idProfesor = idProfesor;
         mostrarConstanciaExperienciaEducativaPane();
-
     }
     
     private void mostrarConstanciaExperienciaEducativaPane(){
@@ -285,7 +283,7 @@ public class FXMLConstanciaImparticionEEController implements Initializable {
     private void desasignarExperienciaEducativaDeProfesor(ExperienciaEducativa experienciaEducativa) {
         ExperienciaEducativaDAO experienciaEducativaDAO = new ExperienciaEducativaDAO();
         if (experienciaEducativa != null){
-            boolean borrarRegistro = VentanasEmergentes.mostrarDialogoConfirmacion("Eliminar alumno", 
+            boolean borrarRegistro = VentanasEmergentes.mostrarDialogoConfirmacion("Desasignar Experiencia Educativa", 
                     "¿Estás seguro que deseas desasignar la experiencia educativa " 
                             + experienciaEducativa.getNombre() + " del profesor?");
             if (borrarRegistro){
@@ -301,7 +299,7 @@ public class FXMLConstanciaImparticionEEController implements Initializable {
                 }
             }
         } else {
-            VentanasEmergentes.mostrarDialogoSimple("Selecciona un alumno", "Selecciona el registro en la tabla que deseas desasignar",
+            VentanasEmergentes.mostrarDialogoSimple("Selecciona una Experiencia Educativa", "Selecciona el registro en la tabla que deseas desasignar",
                     Alert.AlertType.WARNING);
         }
     }

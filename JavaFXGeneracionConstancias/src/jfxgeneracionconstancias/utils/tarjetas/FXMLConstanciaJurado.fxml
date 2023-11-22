@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="paneConstanciaJurado" prefHeight="569.0" prefWidth="1728.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jfxgeneracionconstancias.controladores.FXMLConstanciaJuradoController">
+   <children>
+      <Label layoutX="38.0" layoutY="96.0" text="O registra una nueva Trabajo Recepcional">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbTrabajoRecepcional" layoutX="26.0" layoutY="43.0" onAction="#clic_seleccionAsignarExperienciaEducativa" prefHeight="46.0" prefWidth="649.0" promptText="Trabajo Recepcional" style="-fx-padding: 1 3 1 3; -fx-background-color: ABA7A7; -fx-background-radius: 25; -fx-border-radius: 25;" />
+      <Pane layoutX="31.0" layoutY="129.0" prefHeight="245.0" prefWidth="1369.0" style="-fx-background-color: #ABA7A7; -fx-background-radius: 15;">
+         <children>
+            <Label layoutX="23.0" layoutY="6.0" text="Nombre del Trabajo Recepcional">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="510.0" layoutY="5.0" text="Modalidad">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cbModalidad" layoutX="500.0" layoutY="32.0" prefHeight="34.0" prefWidth="395.0" style="-fx-padding: 1 3 1 3; -fx-background-color: white; -fx-background-radius: 25; -fx-border-radius: 25;" />
+            <TextField fx:id="tfNombreTrabajoRecepcional" layoutX="12.0" layoutY="32.0" prefHeight="39.0" prefWidth="437.0" style="-fx-background-radius: 25;">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <Button fx:id="btnGuardarTrabajoRecepcional" layoutX="1183.0" layoutY="181.0" mnemonicParsing="false" onAction="#clicAgregarTrabajoRecepcional" prefHeight="48.0" prefWidth="162.0" style="-fx-background-radius: 25; -fx-background-color: #245028;" text="Agregar" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Button>
+            <Label layoutX="510.0" layoutY="87.0" text="Programa Educativo">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cbProgramaEducativo" layoutX="500.0" layoutY="113.0" prefHeight="34.0" prefWidth="395.0" style="-fx-padding: 1 3 1 3; -fx-background-color: white; -fx-background-radius: 25; -fx-border-radius: 25;" />
+            <Label layoutX="23.0" layoutY="86.0" text="Resultado obtenido">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cbResultadoObtenido" layoutX="12.0" layoutY="112.0" prefHeight="34.0" prefWidth="437.0" style="-fx-padding: 1 3 1 3; -fx-background-color: white; -fx-background-radius: 25; -fx-border-radius: 25;" />
+            <Label layoutX="20.0" layoutY="164.0" text="Fecha de presentación">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="dpFechaPresentacion" editable="false" layoutX="16.0" layoutY="189.0" prefHeight="31.0" prefWidth="430.0" promptText="dd/mm/aaaa" />
+            <TextField fx:id="tfAlumnos" layoutX="500.0" layoutY="185.0" prefHeight="39.0" prefWidth="658.0" style="-fx-background-radius: 25;">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <Label layoutX="510.0" layoutY="161.0" text="Alumnos">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbAdvertenciaNombreTR" layoutX="23.0" layoutY="69.0" prefHeight="21.0" prefWidth="473.0" text="*El campo nombre es requerido" textFill="RED" visible="false" />
+            <Label fx:id="lbAdvertenciaResultadoObtenido" layoutX="23.0" layoutY="146.0" prefHeight="21.0" prefWidth="473.0" text="*El campo resultado obtenido es requerido" textFill="RED" visible="false" />
+            <Label fx:id="lbAdvertenciaFechaPresentación" layoutX="23.0" layoutY="220.0" prefHeight="21.0" prefWidth="473.0" text="*El campo fecha de presentación es requerido" textFill="RED" visible="false" />
+            <Label fx:id="lbAdvertenciaModalidad" layoutX="523.0" layoutY="69.0" prefHeight="21.0" prefWidth="473.0" text="*El campo modalidad es requerido" textFill="RED" visible="false" />
+            <Label fx:id="lbAdvertenciaProgramaEducativo" layoutX="523.0" layoutY="146.0" prefHeight="21.0" prefWidth="473.0" text="*El campo programa educativo es requerido" textFill="RED" visible="false" />
+            <Label fx:id="lbAdvertenciaAlumnos" layoutX="530.0" layoutY="221.0" prefHeight="21.0" prefWidth="473.0" text="*El campo alumnos es requerido" textFill="RED" visible="false" />
+            <ComboBox fx:id="cbRolJurado" layoutX="957.0" layoutY="32.0" prefHeight="34.0" prefWidth="395.0" style="-fx-padding: 1 3 1 3; -fx-background-color: white; -fx-background-radius: 25; -fx-border-radius: 25;" />
+            <Label layoutX="969.0" layoutY="5.0" text="Rol Jurado">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbAdvertenciaRolJurado" layoutX="957.0" layoutY="69.0" prefHeight="21.0" prefWidth="413.0" text="*El campo rol jurado es requerido" textFill="RED" visible="false" />
+         </children>
+      </Pane>
+      <Label layoutX="35.0" layoutY="15.0" text="Agrega una Trabajo Recepcional al profesor">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="1553.0" layoutY="367.0" prefHeight="40.0" prefWidth="142.0" text="Selecciona una fila para poder eliminarla" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnEliminarTrabajoRecepcional" layoutX="1538.0" layoutY="317.0" mnemonicParsing="false" onAction="#clicEliminarExperienciaEducativa" prefHeight="48.0" prefWidth="162.0" style="-fx-background-radius: 25; -fx-background-color: AD1515;" text="Eliminar" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Button>
+      <Label layoutX="38.0" layoutY="377.0" text="Trabajos Recepcionales del profesor">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tvTrabajosRecepcionales" layoutX="14.0" layoutY="409.0" maxHeight="401.0" prefHeight="170.0" prefWidth="1698.0">
+         <columns>
+            <TableColumn fx:id="colNombreTR" prefWidth="481.6666259765625" text="Nombre del Trabajo Recepcional" />
+            <TableColumn fx:id="colResultadoObtenido" prefWidth="145.0" text="Resultado obtenido" />
+            <TableColumn fx:id="colFechaPresentacion" prefWidth="165.0" text="Fecha de presentación" />
+            <TableColumn fx:id="colModalidad" prefWidth="128.0" text="Modalidad" />
+            <TableColumn fx:id="colProgramaEducativo" minWidth="0.0" prefWidth="263.0" text="Programa Educativo" />
+            <TableColumn fx:id="colAlumnos" prefWidth="388.0" text="Alumnos" />
+            <TableColumn fx:id="colNombreRolJurado" prefWidth="126.0" text="Rol Jurado" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>
