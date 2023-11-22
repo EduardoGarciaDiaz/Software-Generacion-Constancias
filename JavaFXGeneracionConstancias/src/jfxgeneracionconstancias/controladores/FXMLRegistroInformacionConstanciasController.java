@@ -119,6 +119,7 @@ public class FXMLRegistroInformacionConstanciasController implements Initializab
     private void clicBuscar(MouseEvent event) {
         establecerEstiloNormal();
         buscarProfesor();
+        paneFormularioConstancias.setVisible(true);
     }
     
     private void establecerEstiloNormal() {
