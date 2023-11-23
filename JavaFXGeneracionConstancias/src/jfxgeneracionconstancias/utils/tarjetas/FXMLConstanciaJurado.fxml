@@ -9,12 +9,12 @@
 
 <AnchorPane id="AnchorPane" fx:id="paneConstanciaJurado" prefHeight="569.0" prefWidth="1728.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jfxgeneracionconstancias.controladores.FXMLConstanciaJuradoController">
    <children>
-      <Label layoutX="38.0" layoutY="96.0" text="O registra una nueva Trabajo Recepcional">
+      <Label layoutX="38.0" layoutY="96.0" text="O registra un nuevo Trabajo Recepcional">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cbTrabajoRecepcional" layoutX="26.0" layoutY="43.0" onAction="#clic_seleccionAsignarExperienciaEducativa" prefHeight="46.0" prefWidth="649.0" promptText="Trabajo Recepcional" style="-fx-padding: 1 3 1 3; -fx-background-color: ABA7A7; -fx-background-radius: 25; -fx-border-radius: 25;" />
+      <ComboBox fx:id="cbTrabajoRecepcional" layoutX="26.0" layoutY="43.0" onAction="#clic_seleccionAsignarExperienciaEducativa" prefHeight="46.0" prefWidth="649.0" promptText="Seleccionar Trabajo Recepcional" style="-fx-padding: 1 3 1 3; -fx-background-color: ABA7A7; -fx-background-radius: 25; -fx-border-radius: 25;" />
       <Pane layoutX="31.0" layoutY="129.0" prefHeight="245.0" prefWidth="1369.0" style="-fx-background-color: #ABA7A7; -fx-background-radius: 15;">
          <children>
             <Label layoutX="23.0" layoutY="6.0" text="Nombre del Trabajo Recepcional">
@@ -84,7 +84,7 @@
             <Label fx:id="lbAdvertenciaRolJurado" layoutX="957.0" layoutY="69.0" prefHeight="21.0" prefWidth="413.0" text="*El campo rol jurado es requerido" textFill="RED" visible="false" />
          </children>
       </Pane>
-      <Label layoutX="35.0" layoutY="15.0" text="Agrega una Trabajo Recepcional al profesor">
+      <Label layoutX="40.0" layoutY="12.0" text="Agrega una Trabajo Recepcional al profesor y selecciona el rol que tuvo en dicho TR">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -118,5 +118,6 @@
             <TableColumn fx:id="colNombreRolJurado" prefWidth="126.0" text="Rol Jurado" />
          </columns>
       </TableView>
+      <ComboBox fx:id="cbRolJuradoTR" disable="true" layoutX="683.0" layoutY="44.0" onAction="#clic_seleccionAsignarRolJuradoTR" prefHeight="46.0" prefWidth="395.0" promptText="Selecciona el Rol de Jurado" style="-fx-padding: 1 3 1 3; -fx-background-color: ABA7A7; -fx-background-radius: 25; -fx-border-radius: 25;" />
    </children>
 </AnchorPane>
