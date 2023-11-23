@@ -102,6 +102,8 @@ public class FXMLConstanciaJuradoController implements Initializable {
     private TableColumn colNombreRolJurado;
     @FXML
     private Label lbAdvertenciaRolJurado;
+    @FXML
+    private ComboBox<RolJurado> cbRolJuradoTR;
    
     
     /**
@@ -164,12 +166,14 @@ public class FXMLConstanciaJuradoController implements Initializable {
         llenarComboBoxModalidad();
         llenarComboBoxProgramaEducativo();
         llenarComboBoxTrabajoRecepcional();
-        llenarComboBoxRolJurado();
+        llenarComboBoxesRolJurado();
     }
     
     private void llenarComboBoxResultadoObtenido() {
         ObservableList<String> posiblesResultados = FXCollections.observableArrayList();
-        posiblesResultados.addAll("Aprobado", "Rechazado", "Excelente");
+        //String[] resultados = new String[]{"Aprobado con Mención Honorífica", "Aprobado por Unanimidad","Aprobado por Mayoría", "Suspendido"};
+        String[] resultados = new String[]{"Aprobado", "Rechazado", "Pendiente"};
+        posiblesResultados.addAll(resultados);
         cbResultadoObtenido.setItems(posiblesResultados);
     }
 
@@ -201,12 +205,13 @@ public class FXMLConstanciaJuradoController implements Initializable {
         }    
     }
     
-    private void llenarComboBoxRolJurado() {
+    private void llenarComboBoxesRolJurado() {
         RolJuradoDAO rolJuradoDAO = new RolJuradoDAO();
         try {
             rolesJurado = rolJuradoDAO.obtenerRolesJurado();
             if (rolesJurado != null) {
                 cbRolJurado.setItems(rolesJurado);
+                cbRolJuradoTR.setItems(rolesJurado);
             } else {
                 System.out.println("Los roles jurados vienen nulos");
             }
@@ -307,7 +312,6 @@ public class FXMLConstanciaJuradoController implements Initializable {
             
             agregarTrabajoRecepcional(trabajoRecepcional);
         }
-
     }
     
     private void agregarTrabajoRecepcional(TrabajoRecepcional trabajoRecepcional) {
@@ -415,14 +419,28 @@ public class FXMLConstanciaJuradoController implements Initializable {
         return -1;
     }
     
-        @FXML
+    @FXML
     private void clic_seleccionAsignarExperienciaEducativa(ActionEvent event) {
+        cbRolJuradoTR.setDisable(false);
+    }
+
+    @FXML
+    private void clic_seleccionAsignarRolJuradoTR(ActionEvent event) {
         TrabajoRecepcional trabajoRecepcionalSeleccionado = cbTrabajoRecepcional.getSelectionModel().getSelectedItem();
         if (trabajoRecepcionalSeleccionado != null) {
-            int idRolJurado = obtenerIdRolJuradoPorNombreJurado(trabajoRecepcionalSeleccionado.getNombreRolJurado());
-            asignarTrabajoRecepcionalAProfesor(trabajoRecepcionalSeleccionado.getIdTrabajoRecepcional(), idRolJurado);
+            RolJurado rolJuradoTR = cbRolJuradoTR.getSelectionModel().getSelectedItem();            
+            asignarTrabajoRecepcionalAProfesor(trabajoRecepcionalSeleccionado.getIdTrabajoRecepcional(),
+                    rolJuradoTR.getIdRolJurado());
         }
         actualizarComboBoxTrabajosRecepcionales();
+        reiniciarEstadoComboBoxRolJuradoTR();
+    }
+    
+    private void reiniciarEstadoComboBoxRolJuradoTR() {
+        Platform.runLater(() -> {
+            cbRolJuradoTR.getSelectionModel().select(-1);
+        });
+        cbRolJuradoTR.setDisable(true);
     }
     
     private void actualizarComboBoxTrabajosRecepcionales() {
