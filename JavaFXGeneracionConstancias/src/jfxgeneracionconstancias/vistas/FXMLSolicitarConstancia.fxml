@@ -189,5 +189,10 @@
             </Label>
          </children>
       </Pane>
+      <ImageView fitHeight="36.0" fitWidth="41.0" layoutX="9.0" layoutY="53.0" onMouseClicked="#clicRegresarAMenuPrincipal" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../recursos/flechaRegreso.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

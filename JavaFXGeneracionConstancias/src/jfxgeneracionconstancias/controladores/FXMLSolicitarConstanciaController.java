@@ -540,7 +540,6 @@ public class FXMLSolicitarConstanciaController implements Initializable {
         }
     }
 
-    @FXML
     private void clicRegresarVentanaAnterior(MouseEvent event) {
         irMenuPrincipal();
     }
