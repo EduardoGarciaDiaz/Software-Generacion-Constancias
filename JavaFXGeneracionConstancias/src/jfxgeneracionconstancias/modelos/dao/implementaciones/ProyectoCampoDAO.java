@@ -29,6 +29,10 @@ public class ProyectoCampoDAO {
             + "WHERE idProfesor = ?";
     private static String ELIMINAR_PROYECTO_CAMPO = "DELETE FROM constancias.proyectos "
             + "WHERE idProyecto = ? AND idProfesor = ?";
+    private final String OBTENER_PROYECTOS_POR_NUMERO_PERSONAL = "SELECT * FROM constancias.proyectos "
+            + "inner join profesores "
+            + "on profesores.idProfesor = proyectos.idProfesor "
+            + "WHERE profesores.numeroPersonal = ?;";
     
     public int eliminarProyectoCampo(int idProyecto, int idProfesor) throws DAOException{
         int filasAfectadas = -1;
@@ -75,6 +79,32 @@ public class ProyectoCampoDAO {
         try{
             PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement(OBTENER_PROYECTOS_CAMPO_DEL_PROFESOR);
             sentencia.setInt(1, idProfesor);
+            ResultSet resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                ProyectoCampo proyectoCampo = new ProyectoCampo();
+                proyectoCampo.setIdProyecto(resultado.getInt("idProyecto"));
+                proyectoCampo.setNombreProyecto(resultado.getString("nombreProyecto"));
+                proyectoCampo.setDuracion(resultado.getString("duracion"));
+                proyectoCampo.setImpactoObtenido(resultado.getString("impactoObtenido"));
+                proyectoCampo.setLugar(resultado.getString("lugar"));
+                proyectoCampo.setAlumnos(resultado.getString("alumnos"));
+                proyectoCampo.setIdProfesor(resultado.getInt("idProfesor"));
+
+                proyectosCampo.add(proyectoCampo);
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("", Codigos.ERROR_CONSULTA);
+        } finally {
+            ConexionBD.cerrarConexionBD();
+        }
+        return proyectosCampo;
+    }
+    
+    public ObservableList<ProyectoCampo> obtenerProyectosCampoPorNumeroPersonal(long numeroPersonal) throws DAOException {
+        ObservableList<ProyectoCampo> proyectosCampo = FXCollections.observableArrayList();
+        try{
+            PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement(OBTENER_PROYECTOS_POR_NUMERO_PERSONAL);
+            sentencia.setLong(1, numeroPersonal);
             ResultSet resultado = sentencia.executeQuery();
             while (resultado.next()) {
                 ProyectoCampo proyectoCampo = new ProyectoCampo();

@@ -45,11 +45,13 @@ import jfxgeneracionconstancias.modelos.dao.implementaciones.ExperienciaEducativ
 import jfxgeneracionconstancias.modelos.dao.implementaciones.FirmaDAO;
 import jfxgeneracionconstancias.modelos.dao.implementaciones.PeriodoEscolarDAO;
 import jfxgeneracionconstancias.modelos.dao.implementaciones.ProgramaEducativoDAO;
+import jfxgeneracionconstancias.modelos.dao.implementaciones.ProyectoCampoDAO;
 import jfxgeneracionconstancias.modelos.dao.implementaciones.TrabajoRecepcionalDAO;
 import jfxgeneracionconstancias.modelos.pojo.ExperienciaEducativa;
 import jfxgeneracionconstancias.modelos.pojo.FirmaDigital;
 import jfxgeneracionconstancias.modelos.pojo.PeriodoEscolar;
 import jfxgeneracionconstancias.modelos.pojo.ProgramaEducativo;
+import jfxgeneracionconstancias.modelos.pojo.ProyectoCampo;
 import jfxgeneracionconstancias.modelos.pojo.TrabajoRecepcional;
 import jfxgeneracionconstancias.utils.Utilidades;
 import jfxgeneracionconstancias.utils.VentanasEmergentes;
@@ -65,6 +67,7 @@ public class FXMLSolicitarConstanciaController implements Initializable {
     private ObservableList<ProgramaEducativo> programasEducativos;
     private ObservableList<PeriodoEscolar> periodosEscolares;
     private ObservableList<TrabajoRecepcional> trabajosRecepcionales;
+    private ObservableList<ProyectoCampo> proyectosCampo;
     private String RUTA;
     
     @FXML
@@ -127,6 +130,8 @@ public class FXMLSolicitarConstanciaController implements Initializable {
     private Label lblNombreProfesorTrabajo;
     @FXML
     private Pane contenedorConstanciaTrabajo;
+    @FXML
+    private ComboBox<ProyectoCampo> cmbxProyectosDeCampo;
 
     /**
      * Initializes the controller class.
@@ -161,6 +166,7 @@ public class FXMLSolicitarConstanciaController implements Initializable {
                     btnGenerarConstancia.setDisable(true);
                     btnExport.setDisable(true);
                     cmbxTrabajoRecepcional.setVisible(false);
+                    cmbxProyectosDeCampo.setVisible(false);
                     cmbxProgramaEducativo.setVisible(true);
                     llenarComboBoxProgramaEducativo();
                 }
@@ -169,8 +175,19 @@ public class FXMLSolicitarConstanciaController implements Initializable {
                     btnExport.setDisable(true);
                     cmbxPeriodoEscolar.setVisible(false);
                     cmbxExperienciaEducativa.setVisible(false);
+                    cmbxProyectosDeCampo.setVisible(false);
                     cmbxProgramaEducativo.setVisible(true);
                     llenarComboBoxProgramaEducativo();
+                }
+                if (newValue.equals(cmbxTiposConstancia.getItems().get(2))) {
+                    btnGenerarConstancia.setDisable(true);
+                    btnExport.setDisable(true);
+                    cmbxPeriodoEscolar.setVisible(false);
+                    cmbxProgramaEducativo.setVisible(false);
+                    cmbxExperienciaEducativa.setVisible(false);
+                    cmbxTrabajoRecepcional.setVisible(false);
+                    cmbxProyectosDeCampo.setVisible(true);
+                    llenarComboBoxProyectosDeCampo();
                 }
             }
         });
@@ -270,6 +287,22 @@ public class FXMLSolicitarConstanciaController implements Initializable {
             Utilidades.manejarExcepcion(ex.getCodigo());
         }
     }
+    
+    private void llenarComboBoxProyectosDeCampo() {
+        ProyectoCampoDAO proyectoCampoDAO = new ProyectoCampoDAO();
+        try {
+            long numeroPersonal = UsuarioSingleton.obtenerInstancia().getNumeroPersonal();
+            proyectosCampo = 
+                    proyectoCampoDAO.obtenerProyectosCampoPorNumeroPersonal(numeroPersonal);
+            if (proyectosCampo != null) {
+                cmbxProyectosDeCampo.setItems(proyectosCampo);
+            } else {
+                System.out.println("Los proyectos de campo vienen nulos");
+            }
+        } catch (DAOException ex) {
+            Utilidades.manejarExcepcion(ex.getCodigo());
+        }
+    }
 
     
     private void crearDocumentoConstanciaImparticion() {
@@ -288,7 +321,7 @@ public class FXMLSolicitarConstanciaController implements Initializable {
             parrafo.setAlignment(Element.ALIGN_CENTER);
             document.add(parrafo);
             document.add(new Paragraph("\n"));
-            document.add(new Paragraph("​​​que el Mtro. " 
+            document.add(new Paragraph("​​​que el Mtro. (a) " 
                     + UsuarioSingleton.obtenerInstancia().getNombre() + " "
                     + UsuarioSingleton.obtenerInstancia().getPrimerApellido() + " "
                     + UsuarioSingleton.obtenerInstancia().getSegundoApellido()
@@ -360,9 +393,9 @@ public class FXMLSolicitarConstanciaController implements Initializable {
             document.add(new Paragraph("\n\n\n"));
             document.add(firmaDigital);
         } catch (DocumentException de) {
-            
+            System.err.println(de.getMessage());
         } catch (FileNotFoundException ex) {
-            
+            System.err.println(ex.getMessage());
         }
         document.close();
     }
@@ -383,7 +416,7 @@ public class FXMLSolicitarConstanciaController implements Initializable {
             parrafo.setAlignment(Element.ALIGN_CENTER);
             document.add(parrafo);
             document.add(new Paragraph("\n"));
-            document.add(new Paragraph("​​​que el Mtro. " 
+            document.add(new Paragraph("​​​que el Mtro. (a)" 
                     + UsuarioSingleton.obtenerInstancia().getNombre() + " "
                     + UsuarioSingleton.obtenerInstancia().getPrimerApellido() + " "
                     + UsuarioSingleton.obtenerInstancia().getSegundoApellido()
@@ -452,9 +485,9 @@ public class FXMLSolicitarConstanciaController implements Initializable {
             document.add(new Paragraph("\n\n\n"));
             document.add(firmaDigital);
         } catch (DocumentException de) {
-            
+            System.err.println(de.getMessage());
         } catch (FileNotFoundException ex) {
-            
+            System.err.println(ex.getMessage());
         }
         document.close();
     }

@@ -189,5 +189,6 @@
             </Label>
          </children>
       </Pane>
+      <ComboBox fx:id="cmbxProyectosDeCampo" layoutX="32.0" layoutY="188.0" prefHeight="51.0" prefWidth="360.0" promptText="Selecciona un proyecto de campo" style="-fx-font-size: 20;" visible="false" />
    </children>
 </AnchorPane>
