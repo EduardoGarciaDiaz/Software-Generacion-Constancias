@@ -27,6 +27,8 @@ public class FXMLMenuPrincipalController implements Initializable {
     private Button btnAdministrarConstancias;
     @FXML
     private Button btnAdministrarFirmaDigital;
+    @FXML
+    private Button btnImportarCSV;
 
     /**
      * Initializes the controller class.
@@ -39,6 +41,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         }
         if (UsuarioSingleton.obtenerInstancia().getTipoUsuario() == 2){
             btnAdministrarConstancias.setVisible(true);
+            btnImportarCSV.setVisible(true);
         }
     }    
 
@@ -95,6 +98,26 @@ public class FXMLMenuPrincipalController implements Initializable {
             Stage escenario = (Stage) btnAdministrarConstancias.getScene().getWindow();
             escenario.setScene(new Scene(vista));
             escenario.setTitle("Administrar firma digital");
+            escenario.centerOnScreen();
+            escenario.show();            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void clicBtnImportarCSV(ActionEvent event) {
+        irImportarCSV();    
+    }
+    
+     private void irImportarCSV(){       
+          try {
+            FXMLLoader accesoControlador = new FXMLLoader(JavaFXGeneracionConstancias.class
+                    .getResource("vistas/FXMLImportarCVSProfesores.fxml"));
+            Parent vista = accesoControlador.load();            
+            Stage escenario = (Stage) btnImportarCSV.getScene().getWindow();
+            escenario.setScene(new Scene(vista));
+            escenario.setTitle("Importar infromación profesores mediante CSV");
             escenario.centerOnScreen();
             escenario.show();            
         } catch (IOException ex) {

@@ -122,7 +122,7 @@ public class FXMLImportarCVSProfesoresController implements Initializable {
     }     
     
     private boolean comprobarIntegridadArchivo() throws FileNotFoundException, IOException{
-        String[] columnasEsperadas = {"Nombre", "1er Apellido", "2do Apellido", "Correo Institucional", "Correo Alterno", "Grado Estudios", "Fecha Nacimiento","Numero Personal"};
+        String[] columnasEsperadas = {"Numero Personal", "Nombre", "1er Apellido", "2do Apellido", "Correo Institucional", "Correo Alterno", "Grado Estudios", "Fecha Nacimiento"};
         String rutaArchivo = archivoSeleccionado.getAbsolutePath();
         CSVParser csvParsedArchivo = CSVParser.parse(new FileReader(rutaArchivo), CSVFormat.DEFAULT.withHeader());
         List<String> headersName = csvParsedArchivo.getHeaderNames();
@@ -146,7 +146,7 @@ public class FXMLImportarCVSProfesoresController implements Initializable {
             CSVParser archivoCSVParseado = new CSVParser(reader, CSVFormat.DEFAULT.withHeader());
             String[] encabezados = archivoCSVParseado.getHeaderMap().keySet().toArray(new String[0]);
             for (CSVRecord csvRecord : archivoCSVParseado) { 
-                boolean existeCuneta = false;
+                boolean existeCuenta = false;
                 for (Profesor profesor : profesores) {                    
                     if(String.valueOf(profesor.getNumeroPersonal()).equals(csvRecord.get("Numero Personal"))){
                         profesor.setNombre(csvRecord.get("Nombre"));
@@ -156,11 +156,11 @@ public class FXMLImportarCVSProfesoresController implements Initializable {
                         profesor.setCorreoAlterno("Correo Alterno");
                         profesor.setGradoEstudios("Grado Estudios");
                         profesor.setFechaNacimiento("Fecha Nacimiento");
-                        existeCuneta = true;
+                        existeCuenta = true;
                         break;
                     }                    
                }
-               if(!existeCuneta){
+               if(!existeCuenta){
                    profesoresNoEncontrados.add(csvRecord.get("Numero Personal") + " " + csvRecord.get("Nombre"));
                }
             }

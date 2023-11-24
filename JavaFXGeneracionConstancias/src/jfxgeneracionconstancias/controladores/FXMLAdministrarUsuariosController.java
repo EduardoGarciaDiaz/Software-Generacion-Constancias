@@ -1,6 +1,7 @@
 package jfxgeneracionconstancias.controladores;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -10,7 +11,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,8 +23,11 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
+import jfxgeneracionconstancias.JavaFXGeneracionConstancias;
 import jfxgeneracionconstancias.modelos.dao.DAOException;
 import jfxgeneracionconstancias.modelos.dao.implementaciones.ProfesorDAO;
 import jfxgeneracionconstancias.modelos.dao.implementaciones.UsuarioDAO;
@@ -293,6 +300,27 @@ public class FXMLAdministrarUsuariosController implements Initializable {
             lblAdvertenciaContraseña.setText("El campo contraseña es requerido");
         }
         return campoLLeno;
+    }
+
+    @FXML
+    private void clicRegresarVentanaAnterior(MouseEvent event) {
+        irMenuPrincipal();
+    }
+    
+    private void irMenuPrincipal(){
+         if(VentanasEmergentes.mostrarDialogoConfirmacion("Advertencia", "¿Estas seguro que deseas regresar al menu principal?, se perderan todos los datos no guardados")){
+            try {
+                FXMLLoader accesoControlador = new FXMLLoader(JavaFXGeneracionConstancias.class.getResource("vistas/FXMLMenuPrincipal.fxml"));
+                Parent vista = accesoControlador.load();            
+                Stage escenario = (Stage) lblAdvertenciaContraseña.getScene().getWindow();
+                escenario.setScene(new Scene(vista));
+                escenario.centerOnScreen();
+                escenario.setTitle("Inicio Sesion");
+                escenario.show();            
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
     
 }

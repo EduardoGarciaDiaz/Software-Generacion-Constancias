@@ -332,6 +332,29 @@ public class FXMLRegistroInformacionConstanciasController implements Initializab
         }
     }
 
+    @FXML
+    private void clicRegresarVentanaAnterior(MouseEvent event) {
+        irMenuPrincipal();
+    }
+    
+      private void irMenuPrincipal(){
+         if(VentanasEmergentes.mostrarDialogoConfirmacion("Advertencia", "¿Estas seguro que deseas regresar al menu principal?, se perderan todos los datos no guardados")){
+            try {
+                FXMLLoader accesoControlador = new FXMLLoader(JavaFXGeneracionConstancias.class.getResource("vistas/FXMLMenuPrincipal.fxml"));
+                Parent vista = accesoControlador.load();            
+                Stage escenario = (Stage) lbAdvertenciaCorreoAlterno.getScene().getWindow();
+                escenario.setScene(new Scene(vista));
+                escenario.centerOnScreen();
+                escenario.setTitle("Inicio Sesion");
+                escenario.show();            
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+  
+  
 
 
 }

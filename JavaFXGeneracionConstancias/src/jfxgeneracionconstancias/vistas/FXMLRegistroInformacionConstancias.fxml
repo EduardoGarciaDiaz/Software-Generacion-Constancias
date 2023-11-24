@@ -160,5 +160,10 @@
          </effect>
       </Button>
       <Pane fx:id="paneFormularioConstancias" layoutY="322.0" prefHeight="618.0" prefWidth="1728.0" />
+      <ImageView fitHeight="40.0" fitWidth="35.0" layoutX="5.0" layoutY="44.0" onMouseClicked="#clicRegresarVentanaAnterior" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../recursos/flechaRegreso.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

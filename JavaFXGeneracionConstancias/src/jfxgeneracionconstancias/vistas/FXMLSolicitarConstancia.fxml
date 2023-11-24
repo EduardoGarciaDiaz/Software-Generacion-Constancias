@@ -190,5 +190,10 @@
          </children>
       </Pane>
       <ComboBox fx:id="cmbxProyectosDeCampo" layoutX="32.0" layoutY="188.0" prefHeight="51.0" prefWidth="360.0" promptText="Selecciona un proyecto de campo" style="-fx-font-size: 20;" visible="false" />
+      <ImageView fitHeight="36.0" fitWidth="41.0" layoutX="9.0" layoutY="53.0" onMouseClicked="#clicRegresarAMenuPrincipal" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../recursos/flechaRegreso.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
