@@ -52,6 +52,29 @@ public class TrabajoRecepcionalDAO {
     private static String DESASIGNAR_TRABAJO_RECEPCIONAL_AL_PROFESOR = "DELETE FROM profesorestrabajosrecepcionales "
             + "WHERE idProfesor = ? AND idTrabajoRecepcional = ? AND idRolJurado = ?";
     
+    private final String OBTENER_TRABAJOS_RECEPCIONALES_POR_PROGRAMAEDUCATIVO_Y_PROFESOR = "SELECT "
+        + "trabajosrecepcionales.idTrabajosRecepcionales, "
+        + "trabajosrecepcionales.tituloTrabajo, "
+        + "trabajosrecepcionales.resultadoObtenido, "
+        + "trabajosrecepcionales.fechaPresentacion, " 
+        + "trabajosrecepcionales.alumnos, " 
+        + "trabajosrecepcionales.idModalidad, " 
+        + "modalidades.nombreModalidad, " 
+        + "trabajosrecepcionales.idProgramaEducativo, " 
+        + "programaseducativos.nombreProgramaEducativo, " 
+        + "rolesjurado.nombreRolJurado " 
+        + "from trabajosrecepcionales " 
+        + "inner join modalidades " 
+        + "on modalidades.idModalidad = trabajosrecepcionales.idModalidad " 
+        + "inner join programaseducativos " 
+        + "on programaseducativos.idProgramaEducativo = trabajosrecepcionales.idProgramaEducativo " 
+        + "inner join profesorestrabajosrecepcionales " 
+        + "on profesorestrabajosrecepcionales.idTrabajoRecepcional = trabajosrecepcionales.idTrabajosRecepcionales " 
+        + "inner join rolesjurado " 
+        + "on profesorestrabajosrecepcionales.idRolJurado = rolesjurado.idRolJurado " 
+        + "inner join profesores " 
+        + "on profesorestrabajosrecepcionales.idProfesor = profesores.idProfesor " 
+        + "where profesores.numeroPersonal = ? and programaseducativos.idProgramaEducativo = ?";
     
     public int registrarTrabajoRecepcional(TrabajoRecepcional trabajoRecepcional)throws DAOException{
         int respuesta = -1;
@@ -105,6 +128,36 @@ public class TrabajoRecepcionalDAO {
         try{
             PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement(OBTENER_TRABAJOS_RECEPCIONALES_DEL_PROFESOR);
             sentencia.setInt(1, idProfesor);
+            ResultSet resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                TrabajoRecepcional trabajoRecepcional = new TrabajoRecepcional();
+                trabajoRecepcional.setIdTrabajoRecepcional(resultado.getInt("idTrabajosRecepcionales"));
+                trabajoRecepcional.setTituloTrabajoRecepcional(resultado.getString("tituloTrabajo"));
+                trabajoRecepcional.setResultadoObtenido(resultado.getString("resultadoObtenido"));
+                trabajoRecepcional.setFechaPresentacion(resultado.getString("fechaPresentacion"));
+                trabajoRecepcional.setAlumnos(resultado.getString("alumnos"));
+                trabajoRecepcional.setIdModalidad(resultado.getInt("idModalidad"));
+                trabajoRecepcional.setIdProgramaEducativo(resultado.getInt("idProgramaEducativo"));
+                trabajoRecepcional.setNombreProgramaEducativo(resultado.getString("nombreProgramaEducativo"));
+                trabajoRecepcional.setNombreModalidad(resultado.getString("nombreModalidad"));
+                trabajoRecepcional.setNombreRolJurado(resultado.getString("nombreRolJurado"));
+                trabajosRecepcionales.add(trabajoRecepcional);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new DAOException("", Codigos.ERROR_CONSULTA);
+        } finally {
+            ConexionBD.cerrarConexionBD();
+        }
+        return trabajosRecepcionales;
+    }
+     
+      public ObservableList<TrabajoRecepcional> obtenerTrabajosRecepcionalesPorProgramaEducativoYProfesor(long numeroPersonal, int idProgramaEducativo) throws DAOException{
+        ObservableList<TrabajoRecepcional> trabajosRecepcionales = FXCollections.observableArrayList();
+        try{
+            PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement(OBTENER_TRABAJOS_RECEPCIONALES_POR_PROGRAMAEDUCATIVO_Y_PROFESOR);
+            sentencia.setLong(1, numeroPersonal);
+            sentencia.setInt(2, idProgramaEducativo);
             ResultSet resultado = sentencia.executeQuery();
             while (resultado.next()) {
                 TrabajoRecepcional trabajoRecepcional = new TrabajoRecepcional();

@@ -49,11 +49,15 @@ import jfxgeneracionconstancias.JavaFXGeneracionConstancias;
 import jfxgeneracionconstancias.UsuarioSingleton;
 import jfxgeneracionconstancias.modelos.dao.DAOException;
 import jfxgeneracionconstancias.modelos.dao.implementaciones.ExperienciaEducativaDAO;
+import jfxgeneracionconstancias.modelos.dao.implementaciones.FirmaDAO;
 import jfxgeneracionconstancias.modelos.dao.implementaciones.PeriodoEscolarDAO;
 import jfxgeneracionconstancias.modelos.dao.implementaciones.ProgramaEducativoDAO;
+import jfxgeneracionconstancias.modelos.dao.implementaciones.TrabajoRecepcionalDAO;
 import jfxgeneracionconstancias.modelos.pojo.ExperienciaEducativa;
+import jfxgeneracionconstancias.modelos.pojo.FirmaDigital;
 import jfxgeneracionconstancias.modelos.pojo.PeriodoEscolar;
 import jfxgeneracionconstancias.modelos.pojo.ProgramaEducativo;
+import jfxgeneracionconstancias.modelos.pojo.TrabajoRecepcional;
 import jfxgeneracionconstancias.utils.Utilidades;
 import jfxgeneracionconstancias.utils.VentanasEmergentes;
 
@@ -67,6 +71,7 @@ public class FXMLSolicitarConstanciaController implements Initializable {
     private ObservableList<ExperienciaEducativa> experienciasEducativas;
     private ObservableList<ProgramaEducativo> programasEducativos;
     private ObservableList<PeriodoEscolar> periodosEscolares;
+    private ObservableList<TrabajoRecepcional> trabajosRecepcionales;
     private String RUTA;
     
     @FXML
@@ -103,26 +108,74 @@ public class FXMLSolicitarConstanciaController implements Initializable {
     private Button btnExport;
     @FXML
     private Button btnGenerarConstancia;
+    private FirmaDigital firma;
+    @FXML
+    private ComboBox<TrabajoRecepcional> cmbxTrabajoRecepcional;
+    private Pane contenedorConstanciaImparticion1;
+    @FXML
+    private Label lblNombreProgramaEducativo;
+    @FXML
+    private TableColumn<?, ?> colNombreAlumnos;
+    @FXML
+    private TableColumn<?, ?> colTituloTrabajo;
+    @FXML
+    private TableColumn<?, ?> colModalidadTrabajo;
+    @FXML
+    private TableColumn<?, ?> colFechaPresentacion;
+    @FXML
+    private TableColumn<?, ?> colResultadoObtenido;
+    @FXML
+    private Label lblFecha1;
+    @FXML
+    private Label lblNombreRolJurado;
+    @FXML
+    private TableView<TrabajoRecepcional> tblInformacionConstanciaTrabajoRecepcional;
+    @FXML
+    private Label lblNombreProfesorTrabajo;
+    @FXML
+    private Pane contenedorConstanciaTrabajo;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        obtenerFirmaElectronica();
         configurarTablaEE();
+        configurarTablaTrabajosRecepcionales();
         cargarTiposConstancias();
         llenarComboBoxPeriodosEscolares();
         agregarListenerProgramaEducativo();
         agregarListenerPeriodoEscolar();
     }    
     
+    private void obtenerFirmaElectronica() {
+        FirmaDAO firmaDAO = new FirmaDAO();
+        try {
+            firma = firmaDAO.obtenerFirmaDigitalActual();
+        } catch (DAOException ex) {
+            Utilidades.manejarExcepcion(ex.getCodigo());
+        }
+    }
+    
     private void cargarTiposConstancias() {
-        ObservableList<String> elementos = FXCollections.observableArrayList("Constancia Imparticion EE");
+        ObservableList<String> elementos = FXCollections.observableArrayList("Constancia Imparticion EE", "Constancia Jurado", "Constancia de Proyecto de Campo");
         cmbxTiposConstancia.setItems(elementos);
         cmbxTiposConstancia.valueProperty().addListener(new ChangeListener<String> () {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (newValue == cmbxTiposConstancia.getItems().get(0)) {
+                    btnGenerarConstancia.setDisable(true);
+                    btnExport.setDisable(true);
+                    cmbxTrabajoRecepcional.setVisible(false);
+                    cmbxProgramaEducativo.setVisible(true);
+                    llenarComboBoxProgramaEducativo();
+                }
+                if (newValue.equals(cmbxTiposConstancia.getItems().get(1))) {
+                    btnGenerarConstancia.setDisable(true);
+                    btnExport.setDisable(true);
+                    cmbxPeriodoEscolar.setVisible(false);
+                    cmbxExperienciaEducativa.setVisible(false);
                     cmbxProgramaEducativo.setVisible(true);
                     llenarComboBoxProgramaEducativo();
                 }
@@ -135,11 +188,18 @@ public class FXMLSolicitarConstanciaController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends ProgramaEducativo> observable, ProgramaEducativo oldValue, ProgramaEducativo newValue) {
                 if (newValue != null) {
-                    cmbxPeriodoEscolar.setVisible(true);
-                }
-                
-                if (cmbxPeriodoEscolar.getSelectionModel().getSelectedItem()!= null) {
-                    llenarComboBoxExperienciasEducativas();
+                    if (cmbxTiposConstancia.getSelectionModel().getSelectedIndex() == 0) {
+                        cmbxPeriodoEscolar.setVisible(true);                        
+                    }
+                    if (cmbxTiposConstancia.getSelectionModel().getSelectedIndex() == 1) {
+                        cmbxTrabajoRecepcional.setVisible(true);
+                        llenarComboBoxTrabajosRecepcionales();
+                        btnGenerarConstancia.setDisable(false);
+                    }
+                    if (cmbxPeriodoEscolar.getSelectionModel().getSelectedItem()!= null 
+                            && cmbxTiposConstancia.getSelectionModel().getSelectedIndex() == 0) {
+                        llenarComboBoxExperienciasEducativas();
+                    }
                 }
             }
         });
@@ -194,7 +254,24 @@ public class FXMLSolicitarConstanciaController implements Initializable {
             if (experienciasEducativas != null) {
                 cmbxExperienciaEducativa.setItems(experienciasEducativas);
             } else {
-                System.out.println("Los programas educativos vienen nulos");
+                System.out.println("Las experiencias educativas vienen nulas");
+            }
+        } catch (DAOException ex) {
+            Utilidades.manejarExcepcion(ex.getCodigo());
+        }
+    }
+
+    private void llenarComboBoxTrabajosRecepcionales() {
+        TrabajoRecepcionalDAO trabajoRecepcionalDAO = new TrabajoRecepcionalDAO();
+        try {
+            int idProgramaEducativo = cmbxProgramaEducativo.getSelectionModel().getSelectedItem().getIdProgramaEducativo();
+            long numeroPersonal = UsuarioSingleton.obtenerInstancia().getNumeroPersonal();
+            trabajosRecepcionales = 
+                    trabajoRecepcionalDAO.obtenerTrabajosRecepcionalesPorProgramaEducativoYProfesor(numeroPersonal, idProgramaEducativo);
+            if (trabajosRecepcionales != null) {
+                cmbxTrabajoRecepcional.setItems(trabajosRecepcionales);
+            } else {
+                System.out.println("Los trabajos recepcionales vienen nulos");
             }
         } catch (DAOException ex) {
             Utilidades.manejarExcepcion(ex.getCodigo());
@@ -281,6 +358,106 @@ public class FXMLSolicitarConstanciaController implements Initializable {
             Paragraph firmaUv = new Paragraph("<<Lis de Veracruz: Ciencia, Arte, Luz>>");
             firmaUv.setAlignment(Element.ALIGN_CENTER);
             document.add(firmaUv);
+            Paragraph director = new Paragraph("Dr. Luis Gerardo Montané Jiménez");
+            director.setAlignment(Element.ALIGN_CENTER);
+            document.add(director);
+            String firma = this.firma.getContenidoFirmaDigital();
+            Paragraph firmaDigital = new Paragraph(firma);
+            firmaDigital.setAlignment(Element.ALIGN_BOTTOM);
+            document.add(new Paragraph("\n\n\n"));
+            document.add(firmaDigital);
+        } catch (DocumentException de) {
+            
+        } catch (FileNotFoundException ex) {
+            
+        }
+        document.close();
+    }
+    
+    private void crearDocumentoConstanciaTrabajoRecepcional() {
+        String nombreProgramaEducativo = cmbxProgramaEducativo.getSelectionModel().getSelectedItem().getNombreProgramaEducativo();
+        TrabajoRecepcional trabajoRecepcional = cmbxTrabajoRecepcional.getSelectionModel().getSelectedItem();
+        Document document = new Document();
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document, 
+                    new FileOutputStream(RUTA+"/Constancia"+trabajoRecepcional.getTituloTrabajoRecepcional()+".pdf"));
+            document.open();
+            document.add(new Paragraph("A quien corresponda"));
+            document.add(new Paragraph("\n\n"));
+            document.add(new Paragraph("​​El que suscribe, Director de la Facultad de Estadística e Informática, de la Universidad Veracruzana "));
+            document.add(new Paragraph("\n"));
+            Paragraph parrafo = new Paragraph("HACE CONSTAR");
+            parrafo.setAlignment(Element.ALIGN_CENTER);
+            document.add(parrafo);
+            document.add(new Paragraph("\n"));
+            document.add(new Paragraph("​​​que el Mtro. " 
+                    + UsuarioSingleton.obtenerInstancia().getNombre() + " "
+                    + UsuarioSingleton.obtenerInstancia().getPrimerApellido() + " "
+                    + UsuarioSingleton.obtenerInstancia().getSegundoApellido()
+                    + ", fungió como " 
+                    + cmbxTrabajoRecepcional.getSelectionModel().getSelectedItem().getNombreRolJurado()
+                    + " en el siguiente trabajo recepcional del programa "
+                    + nombreProgramaEducativo
+            ));
+            document.add(new Paragraph("\n"));
+            PdfPTable tabla = new PdfPTable(5);
+            PdfPCell alumnos = new PdfPCell(new Phrase("Nombre(s) del (los) alumno(s)"));
+            alumnos.setHorizontalAlignment(1);
+            tabla.addCell(alumnos);
+            PdfPCell tituloTrabajo = new PdfPCell(new Phrase("Titulo del trabajo"));
+            tituloTrabajo.setHorizontalAlignment(1);
+            tabla.addCell(tituloTrabajo);
+            PdfPCell modalidad = new PdfPCell(new Phrase("Modalidad"));
+            modalidad.setHorizontalAlignment(1);
+            tabla.addCell(modalidad);
+            PdfPCell fechaPresentacion = new PdfPCell(new Phrase("Fecha de presentacion"));
+            fechaPresentacion.setHorizontalAlignment(1);
+            tabla.addCell(fechaPresentacion);
+            PdfPCell resultadoObtenido = new PdfPCell(new Phrase("Resultado obtenido en la defensa"));
+            resultadoObtenido.setHorizontalAlignment(1);
+            tabla.addCell(resultadoObtenido);
+            PdfPCell nombresAlumnos = new PdfPCell(new Phrase(trabajoRecepcional.getAlumnos()));
+            nombresAlumnos.setHorizontalAlignment(1);
+            tabla.addCell(nombresAlumnos);
+            PdfPCell titulo = new PdfPCell(new Phrase(trabajoRecepcional.getTituloTrabajoRecepcional()));
+            titulo.setHorizontalAlignment(1);
+            tabla.addCell(titulo);
+            PdfPCell nombreModalidad = new PdfPCell(new Phrase(trabajoRecepcional.getNombreModalidad()));
+            nombreModalidad.setHorizontalAlignment(1);
+            tabla.addCell(nombreModalidad);
+            PdfPCell fechaP = new PdfPCell(new Phrase(trabajoRecepcional.getFechaPresentacion()));
+            fechaP.setHorizontalAlignment(1);
+            tabla.addCell(fechaP);
+            PdfPCell resultadoObtenidoDefensa = new PdfPCell(new Phrase(trabajoRecepcional.getResultadoObtenido()));
+            resultadoObtenidoDefensa.setHorizontalAlignment(1);
+            tabla.addCell(resultadoObtenidoDefensa);
+            
+            document.add(tabla);
+            LocalDate currentDate = LocalDate.now();
+
+        // Definir el formato deseado (día/mes/año)
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        // Formatear la fecha actual en el formato deseado
+            String formattedDate = currentDate.format(formatter);
+            document.add(new Paragraph("\n\n"));
+            document.add(new Paragraph("A petición del interesado y para los fines legales que al mismo convenga, se extiende la presente en la ciudad de Xalapa-Enríquez, Veracruz el dia "
+                    + formattedDate));
+            document.add(new Paragraph("\n\n"));
+            Paragraph parrafoAtentamente = new Paragraph("A t e n t a m e n t e");
+            parrafoAtentamente.setAlignment(Element.ALIGN_CENTER);
+            document.add(parrafoAtentamente);
+            Paragraph firmaUv = new Paragraph("<<Lis de Veracruz: Ciencia, Arte, Luz>>");
+            firmaUv.setAlignment(Element.ALIGN_CENTER);
+            document.add(firmaUv);
+            Paragraph director = new Paragraph("Dr. Luis Gerardo Montané Jiménez");
+            director.setAlignment(Element.ALIGN_CENTER);
+            document.add(director);
+            String firma = this.firma.getContenidoFirmaDigital();
+            Paragraph firmaDigital = new Paragraph(firma);
+            firmaDigital.setAlignment(Element.ALIGN_BOTTOM);
+            document.add(new Paragraph("\n\n\n"));
+            document.add(firmaDigital);
         } catch (DocumentException de) {
             
         } catch (FileNotFoundException ex) {
@@ -296,9 +473,19 @@ public class FXMLSolicitarConstanciaController implements Initializable {
         colSeccionEE.setCellValueFactory(new PropertyValueFactory("seccion"));
         colCreditosEE.setCellValueFactory(new PropertyValueFactory("creditos"));
     }
+    
+    private void configurarTablaTrabajosRecepcionales() {
+        colNombreAlumnos.setCellValueFactory(new PropertyValueFactory("alumnos"));
+        colTituloTrabajo.setCellValueFactory(new PropertyValueFactory("tituloTrabajoRecepcional"));
+        colModalidadTrabajo.setCellValueFactory(new PropertyValueFactory("nombreModalidad"));
+        colFechaPresentacion.setCellValueFactory(new PropertyValueFactory("fechaPresentacion"));
+        colResultadoObtenido.setCellValueFactory(new PropertyValueFactory("resultadoObtenido"));
+    }
 
     @FXML
     private void clicGenerarConstancia(ActionEvent event) {
+        contenedorConstanciaImparticion.setVisible(false);
+        contenedorConstanciaTrabajo.setVisible(false);
         if (cmbxTiposConstancia.getSelectionModel().getSelectedIndex() == 0) {
             if (cmbxExperienciaEducativa.getSelectionModel().getSelectedItem()!= null) {
                 tblInformacionConstanciaImparticionEE.getItems().clear();
@@ -315,6 +502,23 @@ public class FXMLSolicitarConstanciaController implements Initializable {
                 btnExport.setDisable(false);
             }
         }
+        if (cmbxTiposConstancia.getSelectionModel().getSelectedIndex()  == 1) {
+            if (cmbxTrabajoRecepcional.getSelectionModel().getSelectedItem()!= null) {
+                tblInformacionConstanciaTrabajoRecepcional.getItems().clear();
+                lblNombreProfesorTrabajo.setText(UsuarioSingleton.obtenerInstancia().getNombre() + " "
+                        + UsuarioSingleton.obtenerInstancia().getPrimerApellido() + " "
+                        + UsuarioSingleton.obtenerInstancia().getSegundoApellido());
+                lblNombreRolJurado.setText(cmbxTrabajoRecepcional.getSelectionModel().getSelectedItem().getNombreRolJurado());
+                lblNombreProgramaEducativo.setText(cmbxProgramaEducativo.getSelectionModel().getSelectedItem().getNombreProgramaEducativo());
+                LocalDate currentDate = LocalDate.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String formattedDate = currentDate.format(formatter);
+                lblFecha1.setText(formattedDate);
+                tblInformacionConstanciaTrabajoRecepcional.getItems().add(cmbxTrabajoRecepcional.getSelectionModel().getSelectedItem());
+                contenedorConstanciaTrabajo.setVisible(true);
+                btnExport.setDisable(false);
+            }
+        }
     }
 
     @FXML
@@ -324,8 +528,13 @@ public class FXMLSolicitarConstanciaController implements Initializable {
         File selectedDirectory = directoryChooser.showDialog(lblFecha.getScene().getWindow());
         if (selectedDirectory!= null) {
             RUTA = selectedDirectory.getAbsolutePath();
-            if (cmbxTiposConstancia.getSelectionModel().getSelectedIndex() == 0) {
+            if (cmbxTiposConstancia.getSelectionModel().getSelectedIndex() == 0
+                    && cmbxExperienciaEducativa.getSelectionModel().getSelectedItem() != null) {
                 crearDocumentoConstanciaImparticion();
+            }
+            if (cmbxTiposConstancia.getSelectionModel().getSelectedIndex()== 1
+                    && cmbxTrabajoRecepcional.getSelectionModel().getSelectedItem() != null) {
+                crearDocumentoConstanciaTrabajoRecepcional();
             }
             VentanasEmergentes.mostrarDialogoSimple("Constancia generada", "Constancia generada correctamente", Alert.AlertType.INFORMATION);
         }
