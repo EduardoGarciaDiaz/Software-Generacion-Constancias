@@ -25,6 +25,8 @@ public class FXMLMenuPrincipalController implements Initializable {
     private Button btnAdministrarUsuarios;
     @FXML
     private Button btnAdministrarConstancias;
+    @FXML
+    private Button btnAdministrarFirmaDigital;
 
     /**
      * Initializes the controller class.
@@ -33,6 +35,7 @@ public class FXMLMenuPrincipalController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         if (UsuarioSingleton.obtenerInstancia().isEsAdministrador()) {
             btnAdministrarUsuarios.setVisible(true);
+            btnAdministrarFirmaDigital.setVisible(true);
         }
         if (UsuarioSingleton.obtenerInstancia().getTipoUsuario() == 2){
             btnAdministrarConstancias.setVisible(true);
@@ -77,5 +80,25 @@ public class FXMLMenuPrincipalController implements Initializable {
             ex.printStackTrace();
         }
           
+    }
+
+    @FXML
+    private void clicBtnAdministrarFirma(ActionEvent event) {
+        irAdministrarFirmaDigital();
+    }
+    
+    private void irAdministrarFirmaDigital(){       
+          try {
+            FXMLLoader accesoControlador = new FXMLLoader(JavaFXGeneracionConstancias.class
+                    .getResource("vistas/FXMLAdministrarFirmaDigital.fxml"));
+            Parent vista = accesoControlador.load();            
+            Stage escenario = (Stage) btnAdministrarConstancias.getScene().getWindow();
+            escenario.setScene(new Scene(vista));
+            escenario.setTitle("Administrar firma digital");
+            escenario.centerOnScreen();
+            escenario.show();            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

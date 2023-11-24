@@ -19,5 +19,10 @@
             <Font name="System Bold" size="35.0" />
          </font>
       </Button>
+      <Button fx:id="btnAdministrarFirmaDigital" layoutX="427.0" layoutY="491.0" mnemonicParsing="false" onAction="#clicBtnAdministrarFirma" prefHeight="112.0" prefWidth="833.0" style="-fx-background-color: #7E98BE;" text="Administrar firma digital" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
