@@ -25,6 +25,8 @@ public class FXMLMenuPrincipalController implements Initializable {
     private Button btnAdministrarUsuarios;
     @FXML
     private Button btnAdministrarConstancias;
+    @FXML
+    private Button btnImportarCSV;
 
     /**
      * Initializes the controller class.
@@ -32,10 +34,11 @@ public class FXMLMenuPrincipalController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if (UsuarioSingleton.obtenerInstancia().isEsAdministrador()) {
-            btnAdministrarUsuarios.setVisible(true);
+            btnAdministrarUsuarios.setVisible(true);            
         }
         if (UsuarioSingleton.obtenerInstancia().getTipoUsuario() == 2){
             btnAdministrarConstancias.setVisible(true);
+            btnImportarCSV.setVisible(true);
         }
     }    
 
@@ -71,6 +74,27 @@ public class FXMLMenuPrincipalController implements Initializable {
             Stage escenario = (Stage) btnAdministrarConstancias.getScene().getWindow();
             escenario.setScene(new Scene(vista));
             escenario.setTitle("Administrar constancias");
+            escenario.centerOnScreen();
+            escenario.show();            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+          
+    }
+
+    @FXML
+    private void clicBtnImportarCSV(ActionEvent event) {
+        irImportarCSV();
+    }
+    
+         private void irImportarCSV(){       
+          try {
+            FXMLLoader accesoControlador = new FXMLLoader(JavaFXGeneracionConstancias.class
+                    .getResource("vistas/FXMLImportarCVSProfesores.fxml"));
+            Parent vista = accesoControlador.load();            
+            Stage escenario = (Stage) btnAdministrarConstancias.getScene().getWindow();
+            escenario.setScene(new Scene(vista));
+            escenario.setTitle("Improtar infromación de profesores mediante CSV");
             escenario.centerOnScreen();
             escenario.show();            
         } catch (IOException ex) {
