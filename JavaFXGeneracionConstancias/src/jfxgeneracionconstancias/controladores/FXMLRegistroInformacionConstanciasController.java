@@ -57,7 +57,6 @@ public class FXMLRegistroInformacionConstanciasController implements Initializab
     private ObservableList<ExperienciaEducativa> experienciasEducativas;
     private ObservableList<ProgramaEducativo> programasEducativos;
 
-    
     @FXML
     private TextField tfNombre;
     @FXML
@@ -321,8 +320,16 @@ public class FXMLRegistroInformacionConstanciasController implements Initializab
     }
     
     private void mostrarConstanciaProyectoPane(){
-        //TODO
-        //paneConstanciaExperienciaEducativa.setVisible(false);
+        paneFormularioConstancias.getChildren().clear();
+         try {
+            FXMLLoader accesoControlador = new FXMLLoader(JavaFXGeneracionConstancias.class.getResource("utils/tarjetas/FXMLConstanciaProyecto.fxml"));
+            AnchorPane anchorPaneConstanciaProyecto = accesoControlador.load();            
+            FXMLConstanciaProyectoController controladorConstanciaProyecto = accesoControlador.getController();
+            controladorConstanciaProyecto.llenarVentana(idProfesor);
+            paneFormularioConstancias.getChildren().add(anchorPaneConstanciaProyecto);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 

@@ -129,7 +129,7 @@ public class FXMLConstanciaJuradoController implements Initializable {
         }
     }
      
-     private void configurarTablaTrabajoRecepcional(){
+    private void configurarTablaTrabajoRecepcional(){
         colNombreTR.setCellValueFactory(new PropertyValueFactory("tituloTrabajoRecepcional"));
         colResultadoObtenido.setCellValueFactory(new PropertyValueFactory("resultadoObtenido"));
         colFechaPresentacion.setCellValueFactory(new PropertyValueFactory("fechaPresentacion"));
@@ -335,7 +335,7 @@ public class FXMLConstanciaJuradoController implements Initializable {
     }
     
     private void asignarTrabajoRecepcionalAProfesor(int idTrabajoRecepcional, int idRolJurado) {
-            TrabajoRecepcionalDAO trabajoRecepcionalDAO = new TrabajoRecepcionalDAO();
+        TrabajoRecepcionalDAO trabajoRecepcionalDAO = new TrabajoRecepcionalDAO();
         try {
             trabajoRecepcionalDAO.asignarTrabajoRecepcionalAProfesor(idTrabajoRecepcional,idRolJurado ,idProfesor);
             limpiarCamposRegistroTR();

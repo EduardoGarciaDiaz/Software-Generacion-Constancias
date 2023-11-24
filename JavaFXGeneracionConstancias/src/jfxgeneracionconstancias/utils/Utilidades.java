@@ -90,11 +90,51 @@ public class Utilidades {
     
     public static boolean alumnosValido(String alumnos) {
         if (alumnos != null && !alumnos.isEmpty()){
-            Pattern patronAlumnos = Pattern.compile("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]{1,500}$");
+            Pattern patronAlumnos = Pattern.compile("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ,/\\- ]{1,500}$");
             Matcher matchPatron = patronAlumnos.matcher(alumnos);
             return matchPatron.find();
         } else {
             return false;
         }
     }    
+    
+    public static boolean nombreProyectoValido(String nombreProyecto) {
+        if (nombreProyecto != null && !nombreProyecto.isEmpty()){
+            Pattern patronProyecto = Pattern.compile("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]{1,300}$");
+            Matcher matchPatron = patronProyecto.matcher(nombreProyecto);
+            return matchPatron.find();
+        } else {
+            return false;
+        }
+    }    
+    
+    public static boolean duracionProyectoValido(String duracionProyecto) {
+        if (duracionProyecto != null && !duracionProyecto.isEmpty()){
+            Pattern patronDuracion = Pattern.compile("^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\s\\d\\.,!¡¿?@#\\$%\\^&\\*\\(\\)-_+=\\[{\\]};:'\",<>\\|\\/\\\\]{1,40}$");
+            Matcher matchPatron = patronDuracion.matcher(duracionProyecto);
+            return matchPatron.find();
+        } else {
+            return false;
+        }
+    }
+        
+    public static boolean impactoObtenidoProyectoValido(String impacto) {
+        if (impacto != null && !impacto.isEmpty()){
+            Pattern patronImpacto = Pattern.compile("^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\s\\d\\.,!¡¿?@#\\$%\\^&\\*\\(\\)-_+=\\[{\\]};:'\",<>\\|\\/\\\\]{1,500}$");
+            Matcher matchPatron = patronImpacto.matcher(impacto);
+            return matchPatron.find();
+        } else {
+            return false;
+        }
+    }    
+    
+        public static boolean lugarProyectoValido(String lugar) {
+        if (lugar != null && !lugar.isEmpty()){
+            Pattern patronLugar = Pattern.compile("^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\s,/\\-]{1,45}$");
+            Matcher matchPatron = patronLugar.matcher(lugar);
+            return matchPatron.find();
+        } else {
+            return false;
+        }
+    }
 }
