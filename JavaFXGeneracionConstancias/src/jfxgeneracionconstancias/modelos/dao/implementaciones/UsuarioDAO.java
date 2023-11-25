@@ -22,7 +22,9 @@ public class UsuarioDAO implements IUserDAO {
             + " VALUE (?, ?, ?, ?, ?, ?, ?, ?)";
     private final String EDITAR_USUARIO = "UPDATE usuarios SET `nombre` = ?, `primerApellido` = ?, `segundoApellido` = ?, `esAdmin` = ?, "
             + "correoInstitucional = ?, idTipoUsuario = ?, contraseña = ? WHERE (`numeroPersonal` = ?)";
-    private final String OBTENER_USUARIO = "SELECT * FROM usuarios WHERE usuarios.numeroPersonal = ?";
+    private final String OBTENER_USUARIO = "select numeroPersonal, nombre, primerApellido, segundoApellido, esAdmin, correoInstitucional, "
+            + "contraseña, usuarios.IdTipoUsuario, tiposusuario.tipoUsuario from usuarios  inner join tiposusuario "
+            + "where usuarios.idTipoUsuario = tiposusuario.idTipoUsuario and usuarios.numeroPersonal = ?";
     private final String AUTENTICAR_USUARIO = "select numeroPersonal, nombre, primerApellido, segundoApellido, esAdmin, correoInstitucional, "
             + "contraseña, usuarios.IdTipoUsuario, tiposusuario.tipoUsuario from usuarios  inner join tiposusuario "
             + "where usuarios.idTipoUsuario = tiposusuario.idTipoUsuario and usuarios.numeroPersonal = ? and usuarios.contraseña = ?; ";
@@ -31,7 +33,8 @@ public class UsuarioDAO implements IUserDAO {
             + "where usuarios.idTipoUsuario = tiposusuario.idTipoUsuario";
     private final String EDITAR_USUARIO_POR_PERSONAL_ADMINISTRATIVO = "UPDATE usuarios SET `nombre` = ?, `primerApellido` = ?, `segundoApellido` = ?, "
             + "correoInstitucional = ? WHERE (`numeroPersonal` = ?)";
-    
+    private final String ELIMINAR_USUARIO = "delete from usuarios where numeroPersonal = ?;";
+            
     @Override
     public long registrarUsuario(Usuario usuario) throws DAOException {
         long respuesta = -1;
@@ -120,6 +123,7 @@ public class UsuarioDAO implements IUserDAO {
                 usuario.setNombreTipoUsuario(resultado.getString("tipoUsuario"));
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
             throw new DAOException("", Codigos.ERROR_CONSULTA);
         } finally {
             ConexionBD.cerrarConexionBD();
@@ -180,6 +184,22 @@ public class UsuarioDAO implements IUserDAO {
             ConexionBD.cerrarConexionBD();
         }
         return usuarios;
+    }
+    
+    public long eliminarUsuario(long numeroPersonal) throws DAOException {
+        long resultado = -1;
+        try {
+            PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement(ELIMINAR_USUARIO);
+            sentencia.setLong(1, numeroPersonal);
+            int filasAfectadas = sentencia.executeUpdate();
+            resultado = (filasAfectadas == 1) ? numeroPersonal : -1;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new DAOException("", Codigos.ERROR_CONSULTA);
+        } finally {
+            ConexionBD.cerrarConexionBD();
+        }
+        return resultado;
     }
     
 }

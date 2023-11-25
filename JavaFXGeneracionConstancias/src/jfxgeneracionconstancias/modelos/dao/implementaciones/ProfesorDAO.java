@@ -31,7 +31,8 @@ public class ProfesorDAO implements IProfesorDAO {
             + "WHERE `numeroPersonal` = ?";
     private static String RECUPERAR_TODOS_LOS_PROFESORES = "SELECT * FROM constancias.usuarios "         
             + "Join constancias.profesores ON usuarios.numeroPersonal = profesores.numeroPersonal;";
-
+    private final static String ELIMINAR_PROFESOR = "delete from profesores where idProfesor = ?;";
+    
     @Override
     public int registrarProfesor(Profesor profesor) throws DAOException {
         int respuesta = -1;
@@ -130,6 +131,22 @@ public class ProfesorDAO implements IProfesorDAO {
             ConexionBD.cerrarConexionBD();
         }
         return profesores;
+    }
+    
+    public int eliminarProfesor(int idProfesor) throws DAOException {
+        int resultado = -1;
+        try {
+            PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement(ELIMINAR_PROFESOR);
+            sentencia.setInt(1, idProfesor);
+            int filasAfectadas = sentencia.executeUpdate();
+            resultado = (filasAfectadas == 1) ? idProfesor : -1;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new DAOException("", Codigos.ERROR_CONSULTA);
+        } finally {
+            ConexionBD.cerrarConexionBD();
+        }
+        return resultado;
     }
     
 }
