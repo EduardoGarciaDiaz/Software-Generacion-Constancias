@@ -231,5 +231,19 @@ public class ExperienciaEducativaDAO {
         }
         return filasAfectadas;
     }
+    
+    public int eliminarExperienciaEducativa(int idExperienciaEducativa) throws DAOException{
+        int filasAfectadas = -1;
+        try {
+            PreparedStatement sentencia = ConexionBD.obtenerConexionBD().prepareStatement("DELETE * from experiencias educativas WHERE idExperienciaEducativa = ?");
+            sentencia.setInt(1, idExperienciaEducativa);
+            filasAfectadas = sentencia.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAOException("", Codigos.ERROR_CONSULTA);
+        } finally {
+            ConexionBD.cerrarConexionBD();
+        }
+        return filasAfectadas;
+    }
 
 }

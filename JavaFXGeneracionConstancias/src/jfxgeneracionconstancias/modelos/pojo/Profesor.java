@@ -1,5 +1,7 @@
 package jfxgeneracionconstancias.modelos.pojo;
 
+import java.util.Objects;
+
 public class Profesor extends Usuario {
     
     private int idUsuario;
@@ -65,6 +67,37 @@ public class Profesor extends Usuario {
     public void setGradoEstudios(String gradoEstudios) {
         this.gradoEstudios = gradoEstudios;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Profesor other = (Profesor) obj;
+        if (this.idUsuario != other.idUsuario) {
+            return false;
+        }
+        if (!Objects.equals(this.fechaNacimiento, other.fechaNacimiento)) {
+            return false;
+        }
+        if (!Objects.equals(this.correoAlterno, other.correoAlterno)) {
+            return false;
+        }
+        return Objects.equals(this.gradoEstudios, other.gradoEstudios);
+    }
+    
     
     
 }

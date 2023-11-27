@@ -4,6 +4,8 @@
  */
 package jfxgeneracionconstancias.modelos.pojo;
 
+import java.util.Objects;
+
 /**
  *
  * @author egd17
@@ -40,6 +42,30 @@ public class Modalidad {
     @Override
     public String toString() {
         return nombreModalidad;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Modalidad other = (Modalidad) obj;
+        if (this.idModalidad != other.idModalidad) {
+            return false;
+        }
+        return Objects.equals(this.nombreModalidad, other.nombreModalidad);
     }
     
     
